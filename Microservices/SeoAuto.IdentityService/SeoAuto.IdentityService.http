@@ -1,0 +1,6 @@
+@SeoAuto.IdentityService_HostAddress = http://localhost:5155
+
+GET {{SeoAuto.IdentityService_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
