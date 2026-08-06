@@ -28,8 +28,7 @@ import {
   Search,
   BarChart3,
   Check,
-  LayoutDashboard,
-  ShieldAlert
+  LayoutDashboard
 } from 'lucide-react';
 
 export default function Home() {
@@ -446,7 +445,7 @@ export default function Home() {
             </div>
           </div>
         ) : (
-          /* REGULAR USER WORKSPACE VIEW */
+          /* AUTHENTICATED USER WORKSPACE VIEW */
           <div className="space-y-6">
             {/* User Welcome Banner */}
             <div className="hallmark-card rounded-2xl p-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
@@ -465,21 +464,6 @@ export default function Home() {
                     Hệ thống phân tích & Tối ưu hóa SEO tự động bằng Trí tuệ Nhân tạo AI
                   </p>
                 </div>
-              </div>
-
-              <div className="flex items-center gap-2">
-                {/* Role Switcher Simulator for Testing */}
-                <button
-                  onClick={() => {
-                    const newRole = user.role === 'Admin' ? 'User' : 'Admin';
-                    setUser({ ...user, role: newRole });
-                    showAlert('success', `Đã chuyển chế độ xem sang: ${newRole}`);
-                  }}
-                  className="px-3 py-1.5 rounded-lg bg-slate-900 border border-white/10 hover:border-indigo-500/50 text-[11px] font-mono text-slate-300 transition flex items-center gap-1.5"
-                >
-                  <ShieldAlert className="w-3.5 h-3.5 text-indigo-400" />
-                  Đổi vai trò: {user.role === 'Admin' ? 'Khách hàng' : 'Quản trị viên (Admin)'}
-                </button>
               </div>
             </div>
 
@@ -518,7 +502,7 @@ export default function Home() {
                 <Key className="w-3.5 h-3.5" /> Bảo mật & Đổi mật khẩu
               </button>
 
-              {/* ADMIN ONLY TAB */}
+              {/* STRICT ADMIN ONLY TAB - Only visible if JWT Role Claim === 'Admin' */}
               {user.role === 'Admin' && (
                 <button
                   onClick={() => setActiveTab('system')}
@@ -692,7 +676,7 @@ export default function Home() {
               </div>
             )}
 
-            {/* TAB 4: SYSTEM INFRASTRUCTURE (ADMIN ONLY) */}
+            {/* TAB 4: SYSTEM INFRASTRUCTURE (STRICT ADMIN ONLY) */}
             {activeTab === 'system' && user.role === 'Admin' && (
               <div className="space-y-6">
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
