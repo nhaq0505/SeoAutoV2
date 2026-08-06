@@ -12,6 +12,10 @@ builder.Services.AddOpenApi();
 builder.Services.AddDbContext<SeoAuto.IdentityService.Infrastructure.Database.AppDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+// Đăng ký Global Exception Handler từ BuildingBlocks
+builder.Services.AddExceptionHandler<SeoAuto.BuildingBlocks.Exceptions.GlobalExceptionHandler>();
+builder.Services.AddProblemDetails();
+
 // Cấu hình JWT Authentication Middleware
 var secretKey = builder.Configuration["JwtSettings:Secret"] ?? "SuperSecretKeyForSeoAutoV2ProjectMinimum32BytesLong!";
 var issuer = builder.Configuration["JwtSettings:Issuer"] ?? "SeoAutoV2";
@@ -45,6 +49,8 @@ if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
 }
+
+app.UseExceptionHandler();
 
 app.UseHttpsRedirection();
 
