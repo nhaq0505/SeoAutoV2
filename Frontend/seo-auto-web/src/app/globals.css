@@ -1,65 +1,95 @@
+/* Hallmark · pre-emit critique: P5 H5 E5 S5 R5 V5 */
 @import "tailwindcss";
 
-@layer base {
-  :root {
-    --background: #090d16;
-    --foreground: #f1f5f9;
-  }
+:root {
+  --color-bg-base: #030712;
+  --color-bg-surface: #0b0f19;
+  --color-bg-elevated: #131927;
+  --color-border-hairline: rgba(255, 255, 255, 0.07);
+  --color-border-strong: rgba(255, 255, 255, 0.15);
+  
+  --color-accent-primary: #6366f1;
+  --color-accent-emerald: #10b981;
+  --color-accent-purple: #8b5cf6;
+  
+  --color-text-primary: #f8fafc;
+  --color-text-secondary: #94a3b8;
+  --color-text-muted: #64748b;
+  
+  --font-display: system-ui, -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
 }
 
 body {
-  background-color: var(--background);
-  color: var(--foreground);
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-  overflow-x: hidden;
+  background-color: var(--color-bg-base);
+  color: var(--color-text-primary);
+  font-family: var(--font-display);
+  overflow-x: clip;
+  min-height: 100vh;
+  margin: 0;
+}
+
+/* Subtle Architectural Grid Background */
+.bg-grid-pattern {
+  background-size: 40px 40px;
+  background-image: 
+    linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+}
+
+/* Tactile Hallmark Surface Cards */
+.hallmark-card {
+  background-color: var(--color-bg-surface);
+  border: 1px solid var(--color-border-hairline);
+  box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.5);
+  transition: border-color 0.2s ease, transform 0.2s ease;
+}
+
+.hallmark-card:hover {
+  border-color: rgba(99, 102, 241, 0.3);
+}
+
+.hallmark-card-elevated {
+  background-color: var(--color-bg-elevated);
+  border: 1px solid var(--color-border-hairline);
+}
+
+/* Tactile Inputs */
+.hallmark-input {
+  background-color: rgba(19, 25, 39, 0.8);
+  border: 1px solid var(--color-border-hairline);
+  color: var(--color-text-primary);
+  transition: all 0.15s ease-in-out;
+}
+
+.hallmark-input:focus {
+  border-color: var(--color-accent-primary);
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
 }
 
 /* Custom Scrollbar */
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 5px;
+  height: 5px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #0f172a;
+  background: var(--color-bg-base);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #334155;
-  border-radius: 4px;
+  background: #1e293b;
+  border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #475569;
+  background: #334155;
 }
 
-/* Glassmorphism card utilities */
-.glass-panel {
-  background: rgba(15, 23, 42, 0.75);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-}
-
-.glass-input {
-  background: rgba(30, 41, 59, 0.6);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  color: #f8fafc;
-  transition: all 0.2s ease-in-out;
-}
-
-.glass-input:focus {
-  background: rgba(30, 41, 59, 0.9);
-  border-color: #6366f1;
-  outline: none;
-  box-shadow: 0 0 15px rgba(99, 102, 241, 0.25);
-}
-
-/* Glow effects */
-.glow-purple {
-  box-shadow: 0 0 40px -10px rgba(124, 58, 237, 0.35);
-}
-
-.glow-indigo {
-  box-shadow: 0 0 40px -10px rgba(99, 102, 241, 0.35);
+/* Display Header Typography Safety */
+h1, h2, h3, h4, h5, h6 {
+  font-style: normal !important;
+  overflow-wrap: anywhere;
+  min-width: 0;
 }
