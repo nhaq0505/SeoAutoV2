@@ -12,6 +12,17 @@ builder.Services.AddOpenApi();
 builder.Services.AddDbContext<SeoAuto.IdentityService.Infrastructure.Database.AppDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+// Cấu hình CORS
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll", policy =>
+    {
+        policy.AllowAnyOrigin()
+              .AllowAnyHeader()
+              .AllowAnyMethod();
+    });
+});
+
 // Đăng ký Global Exception Handler từ BuildingBlocks
 builder.Services.AddExceptionHandler<SeoAuto.BuildingBlocks.Exceptions.GlobalExceptionHandler>();
 builder.Services.AddProblemDetails();
@@ -51,6 +62,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseExceptionHandler();
+
+app.UseCors("AllowAll");
 
 app.UseHttpsRedirection();
 
