@@ -19,12 +19,12 @@ Chúng ta vẫn sẽ áp dụng chiến lược **Chia để trị (Phased Appro
 
 ## Lộ trình Triển khai Tổng thể (8 Tháng)
 
-### Tháng 1: Hạ tầng (Infrastructure) & Identity Core
+### Tháng 1: Hạ tầng (Infrastructure) & Identity Core (HOÀN THÀNH 100%)
 - [x] Thiết lập Docker Compose (PostgreSQL, Redis, RabbitMQ).
-- [ ] Thiết lập Shared Library (MassTransit, Exceptions, Logging với Serilog).
-- [x] Khởi tạo **YARP API Gateway** (Cấu hình định tuyến cơ bản qua Port 8000).
+- [x] Thiết lập Shared Library (`BuildingBlocks/SeoAuto.BuildingBlocks` với Global Exception Handler).
+- [x] Khởi tạo **YARP API Gateway** (Cấu hình định tuyến cơ bản qua Port 8000, bật CORS).
 - [x] Xây dựng **Identity Service** (Đăng ký/Đăng nhập với JWT, Refresh Token Flow, Profile & Change Password).
-- [ ] Khởi tạo bộ khung Frontend (Next.js) và setup UI Kit (v.d. Shadcn/ui).
+- [x] Khởi tạo bộ khung Frontend Dashboard (**Next.js 15 + TypeScript + TailwindCSS**) tại `Frontend/seo-auto-web`.
 
 ### Tháng 2: Core Audit Flow
 - [ ] Xây dựng **Audit Service** (Tích hợp Google PageSpeed Insights API, CQRS Pattern).
