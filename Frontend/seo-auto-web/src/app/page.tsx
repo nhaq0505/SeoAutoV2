@@ -24,7 +24,12 @@ import {
   Terminal,
   Layers,
   Zap,
-  Globe
+  Globe,
+  Search,
+  BarChart3,
+  Check,
+  LayoutDashboard,
+  ShieldAlert
 } from 'lucide-react';
 
 export default function Home() {
@@ -36,7 +41,7 @@ export default function Home() {
   const [authMode, setAuthMode] = useState<'login' | 'register'>('login');
 
   // Dashboard Tabs (Dashboard View)
-  const [activeTab, setActiveTab] = useState<'overview' | 'profile' | 'security' | 'tokens'>('overview');
+  const [activeTab, setActiveTab] = useState<'audit' | 'profile' | 'security' | 'system'>('audit');
 
   // Input States
   const [loginEmail, setLoginEmail] = useState('');
@@ -51,6 +56,10 @@ export default function Home() {
 
   const [oldPassword, setOldPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
+
+  // SEO Audit Demo Search State
+  const [auditUrl, setAuditUrl] = useState('');
+  const [isAuditing, setIsAuditing] = useState(false);
 
   // Status & Notification Messages
   const [actionMessage, setActionMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
@@ -177,10 +186,19 @@ export default function Home() {
     showAlert('success', 'Đã đăng xuất khỏi hệ thống');
   };
 
-  // Quick Demo fill
   const fillDemoLogin = () => {
     setLoginEmail('quan@example.com');
     setLoginPassword('Password123!');
+  };
+
+  const handleStartAudit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!auditUrl) return;
+    setIsAuditing(true);
+    setTimeout(() => {
+      setIsAuditing(false);
+      showAlert('success', `Đã nhận yêu cầu phân tích URL: ${auditUrl}. Module Audit Service (Tháng 2) sẽ xử lý dữ liệu này!`);
+    }, 1500);
   };
 
   if (loading) {
@@ -188,7 +206,7 @@ export default function Home() {
       <div className="min-h-screen flex items-center justify-center bg-[#030712] text-slate-200">
         <div className="flex flex-col items-center gap-4">
           <RefreshCw className="w-8 h-8 animate-spin text-indigo-500" />
-          <p className="text-xs font-mono text-slate-400 uppercase tracking-widest">Connecting to API Gateway (Port 8000)...</p>
+          <p className="text-xs font-mono text-slate-400 uppercase tracking-widest">Đang tải cấu hình người dùng...</p>
         </div>
       </div>
     );
@@ -200,7 +218,7 @@ export default function Home() {
       <div className="fixed top-0 left-1/4 w-96 h-96 bg-indigo-900/15 rounded-full blur-[140px] pointer-events-none"></div>
       <div className="fixed bottom-0 right-1/4 w-96 h-96 bg-purple-900/10 rounded-full blur-[140px] pointer-events-none"></div>
 
-      {/* Header Bar - Architectural Hairline Border */}
+      {/* Header Bar */}
       <header className="relative z-10 border-b border-white/[0.08] bg-[#030712]/80 backdrop-blur-xl px-6 py-3.5">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           <div className="flex items-center gap-3">
@@ -211,18 +229,13 @@ export default function Home() {
               <div className="flex items-center gap-2">
                 <span className="font-bold tracking-tight text-sm text-white">SEO-AUTO-V2</span>
                 <span className="text-[10px] font-mono uppercase tracking-wider px-2 py-0.5 rounded bg-indigo-500/15 text-indigo-400 border border-indigo-500/30">
-                  Monorepo v2.0
+                  {user?.role === 'Admin' ? 'Admin Portal' : 'User Platform'}
                 </span>
               </div>
             </div>
           </div>
 
           <div className="flex items-center gap-4">
-            <div className="hidden sm:flex items-center gap-2 px-3 py-1 rounded-full bg-slate-900 border border-white/10 text-xs font-mono text-emerald-400">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
-              Gateway :8000
-            </div>
-
             {user ? (
               <div className="flex items-center gap-3 border-l border-white/10 pl-4">
                 <div className="text-right hidden md:block">
@@ -268,12 +281,10 @@ export default function Home() {
             <div className="hallmark-card rounded-2xl p-8 relative">
               <div className="text-center mb-8">
                 <h2 className="text-xl font-bold tracking-tight text-white mb-2">
-                  {authMode === 'login' ? 'Xác thực Hệ thống' : 'Tạo Tài khoản mới'}
+                  {authMode === 'login' ? 'Đăng nhập Khách hàng' : 'Đăng ký Tài khoản mới'}
                 </h2>
                 <p className="text-xs text-slate-400 font-mono">
-                  {authMode === 'login'
-                    ? 'YARP Gateway /api/auth/login'
-                    : 'YARP Gateway /api/auth/register'}
+                  SEO Optimization & Performance Platform
                 </p>
               </div>
 
@@ -349,7 +360,7 @@ export default function Home() {
                       <RefreshCw className="w-4 h-4 animate-spin" />
                     ) : (
                       <>
-                        Xác thực & Vào Dashboard <ArrowRight className="w-4 h-4" />
+                        Vào Workspace Khách hàng <ArrowRight className="w-4 h-4" />
                       </>
                     )}
                   </button>
@@ -435,7 +446,7 @@ export default function Home() {
             </div>
           </div>
         ) : (
-          /* WORKBENCH DASHBOARD VIEW (Logged In Mode) */
+          /* REGULAR USER WORKSPACE VIEW */
           <div className="space-y-6">
             {/* User Welcome Banner */}
             <div className="hallmark-card rounded-2xl p-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
@@ -445,38 +456,44 @@ export default function Home() {
                 </div>
                 <div>
                   <h2 className="text-lg font-bold text-white flex items-center gap-2">
-                    Xin chào, {user.fullName}
+                    Chào mừng trở lại, {user.fullName}!
                     <span className="text-[10px] font-mono uppercase px-2 py-0.5 rounded bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">
-                      {user.role}
+                      Tài khoản {user.role}
                     </span>
                   </h2>
-                  <p className="text-xs font-mono text-slate-400 mt-0.5">
-                    User GUID: <span className="text-indigo-400">{user.id}</span>
+                  <p className="text-xs text-slate-400 mt-0.5">
+                    Hệ thống phân tích & Tối ưu hóa SEO tự động bằng Trí tuệ Nhân tạo AI
                   </p>
                 </div>
               </div>
 
-              <button
-                onClick={handleManualRefreshToken}
-                disabled={submitting}
-                className="px-3.5 py-2 rounded-xl bg-slate-950 border border-white/10 hover:border-indigo-500/50 text-xs font-mono text-indigo-300 hover:text-white transition flex items-center gap-2"
-              >
-                <RefreshCw className={`w-3.5 h-3.5 ${submitting ? 'animate-spin' : ''}`} />
-                POST /api/auth/refresh
-              </button>
+              <div className="flex items-center gap-2">
+                {/* Role Switcher Simulator for Testing */}
+                <button
+                  onClick={() => {
+                    const newRole = user.role === 'Admin' ? 'User' : 'Admin';
+                    setUser({ ...user, role: newRole });
+                    showAlert('success', `Đã chuyển chế độ xem sang: ${newRole}`);
+                  }}
+                  className="px-3 py-1.5 rounded-lg bg-slate-900 border border-white/10 hover:border-indigo-500/50 text-[11px] font-mono text-slate-300 transition flex items-center gap-1.5"
+                >
+                  <ShieldAlert className="w-3.5 h-3.5 text-indigo-400" />
+                  Đổi vai trò: {user.role === 'Admin' ? 'Khách hàng' : 'Quản trị viên (Admin)'}
+                </button>
+              </div>
             </div>
 
-            {/* Hallmark Workbench Navigation Bar */}
+            {/* Navigation Tabs Bar */}
             <div className="flex items-center gap-2 border-b border-white/10 pb-3">
               <button
-                onClick={() => setActiveTab('overview')}
+                onClick={() => setActiveTab('audit')}
                 className={`px-4 py-2 text-xs font-mono font-semibold rounded-xl transition flex items-center gap-2 ${
-                  activeTab === 'overview'
+                  activeTab === 'audit'
                     ? 'bg-indigo-600 text-white'
                     : 'text-slate-400 hover:text-slate-200 hover:bg-slate-900'
                 }`}
               >
-                <Activity className="w-3.5 h-3.5" /> System Health
+                <Globe className="w-3.5 h-3.5" /> Phân tích Website (SEO Audit)
               </button>
 
               <button
@@ -487,7 +504,7 @@ export default function Home() {
                     : 'text-slate-400 hover:text-slate-200 hover:bg-slate-900'
                 }`}
               >
-                <Edit3 className="w-3.5 h-3.5" /> Edit Profile
+                <Edit3 className="w-3.5 h-3.5" /> Hồ sơ cá nhân
               </button>
 
               <button
@@ -498,62 +515,90 @@ export default function Home() {
                     : 'text-slate-400 hover:text-slate-200 hover:bg-slate-900'
                 }`}
               >
-                <Key className="w-3.5 h-3.5" /> Password & Security
+                <Key className="w-3.5 h-3.5" /> Bảo mật & Đổi mật khẩu
               </button>
 
-              <button
-                onClick={() => setActiveTab('tokens')}
-                className={`px-4 py-2 text-xs font-mono font-semibold rounded-xl transition flex items-center gap-2 ${
-                  activeTab === 'tokens'
-                    ? 'bg-indigo-600 text-white'
-                    : 'text-slate-400 hover:text-slate-200 hover:bg-slate-900'
-                }`}
-              >
-                <Terminal className="w-3.5 h-3.5" /> JWT Inspector
-              </button>
+              {/* ADMIN ONLY TAB */}
+              {user.role === 'Admin' && (
+                <button
+                  onClick={() => setActiveTab('system')}
+                  className={`px-4 py-2 text-xs font-mono font-semibold rounded-xl transition flex items-center gap-2 border border-purple-500/30 ${
+                    activeTab === 'system'
+                      ? 'bg-purple-600 text-white'
+                      : 'text-purple-400 hover:bg-purple-950/30'
+                  }`}
+                >
+                  <Terminal className="w-3.5 h-3.5" /> 🛠 Quản trị Hệ thống (Admin Only)
+                </button>
+              )}
             </div>
 
-            {/* TAB 1: SYSTEM HEALTH BENTO GRID */}
-            {activeTab === 'overview' && (
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                <div className="hallmark-card p-5 rounded-2xl">
-                  <div className="flex items-center justify-between mb-3">
-                    <Server className="w-5 h-5 text-indigo-400" />
-                    <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-                  </div>
-                  <h3 className="text-xs font-mono uppercase text-slate-400">YARP API Gateway</h3>
-                  <p className="text-xl font-bold text-white mt-1">Port 8000</p>
-                  <p className="text-[11px] font-mono text-slate-500 mt-2">Forwarding Proxy Route</p>
+            {/* TAB 1: SEO AUDIT SEARCH WORKSPACE (CUSTOMER VIEW) */}
+            {activeTab === 'audit' && (
+              <div className="space-y-6">
+                {/* Search / Audit URL Bar */}
+                <div className="hallmark-card p-6 rounded-2xl">
+                  <h3 className="text-sm font-bold text-white mb-1">Kiểm tra & Tối ưu SEO Website ngay tức thì</h3>
+                  <p className="text-xs text-slate-400 mb-4">
+                    Nhập đường dẫn trang web của bạn để Google PageSpeed API & Gemini AI phân tích điểm số
+                  </p>
+
+                  <form onSubmit={handleStartAudit} className="flex flex-col sm:flex-row gap-3">
+                    <div className="relative flex-1">
+                      <Globe className="w-4 h-4 absolute left-3.5 top-3.5 text-slate-500" />
+                      <input
+                        type="url"
+                        required
+                        value={auditUrl}
+                        onChange={(e) => setAuditUrl(e.target.value)}
+                        placeholder="https://mywebsite.com"
+                        className="w-full hallmark-input rounded-xl pl-10 pr-4 py-2.5 text-xs font-mono"
+                      />
+                    </div>
+                    <button
+                      type="submit"
+                      disabled={isAuditing}
+                      className="px-6 py-2.5 rounded-xl bg-gradient-to-r from-indigo-600 to-violet-600 text-white font-semibold text-xs transition shadow-lg shadow-indigo-600/30 flex items-center justify-center gap-2 disabled:opacity-50"
+                    >
+                      {isAuditing ? (
+                        <RefreshCw className="w-4 h-4 animate-spin" />
+                      ) : (
+                        <>
+                          <Search className="w-4 h-4" /> Phân tích SEO bằng AI
+                        </>
+                      )}
+                    </button>
+                  </form>
                 </div>
 
-                <div className="hallmark-card p-5 rounded-2xl">
-                  <div className="flex items-center justify-between mb-3">
-                    <Cpu className="w-5 h-5 text-purple-400" />
-                    <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                {/* Dashboard Stats for User */}
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                  <div className="hallmark-card p-5 rounded-2xl">
+                    <div className="flex items-center justify-between mb-2">
+                      <BarChart3 className="w-5 h-5 text-indigo-400" />
+                      <span className="text-[10px] font-mono text-slate-400">Tháng 1/Tháng 2</span>
+                    </div>
+                    <h4 className="text-xs font-mono text-slate-400">Tổng số Website đã Audit</h4>
+                    <p className="text-2xl font-bold text-white mt-1">0 Trang</p>
                   </div>
-                  <h3 className="text-xs font-mono uppercase text-slate-400">Identity Service</h3>
-                  <p className="text-xl font-bold text-white mt-1">Port 5001</p>
-                  <p className="text-[11px] font-mono text-slate-500 mt-2">.NET 10 Vertical Slice</p>
-                </div>
 
-                <div className="hallmark-card p-5 rounded-2xl">
-                  <div className="flex items-center justify-between mb-3">
-                    <Database className="w-5 h-5 text-blue-400" />
-                    <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                  <div className="hallmark-card p-5 rounded-2xl">
+                    <div className="flex items-center justify-between mb-2">
+                      <Sparkles className="w-5 h-5 text-purple-400" />
+                      <span className="text-[10px] font-mono text-slate-400">Gemini 1.5</span>
+                    </div>
+                    <h4 className="text-xs font-mono text-slate-400">Đoạn Code đã được AI tối ưu</h4>
+                    <p className="text-2xl font-bold text-white mt-1">0 Đoạn Code</p>
                   </div>
-                  <h3 className="text-xs font-mono uppercase text-slate-400">PostgreSQL DB</h3>
-                  <p className="text-xl font-bold text-white mt-1">Port 5432</p>
-                  <p className="text-[11px] font-mono text-slate-500 mt-2">seo_auto_identity_db</p>
-                </div>
 
-                <div className="hallmark-card p-5 rounded-2xl">
-                  <div className="flex items-center justify-between mb-3">
-                    <Layers className="w-5 h-5 text-emerald-400" />
-                    <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                  <div className="hallmark-card p-5 rounded-2xl">
+                    <div className="flex items-center justify-between mb-2">
+                      <ShieldCheck className="w-5 h-5 text-emerald-400" />
+                      <span className="text-[10px] font-mono text-slate-400">Realtime</span>
+                    </div>
+                    <h4 className="text-xs font-mono text-slate-400">Điểm SEO Trung bình</h4>
+                    <p className="text-2xl font-bold text-white mt-1">— / 100</p>
                   </div>
-                  <h3 className="text-xs font-mono uppercase text-slate-400">BuildingBlocks</h3>
-                  <p className="text-xl font-bold text-white mt-1">Shared Kernel</p>
-                  <p className="text-[11px] font-mono text-slate-500 mt-2">ISoftDelete & Exceptions</p>
                 </div>
               </div>
             )}
@@ -561,13 +606,11 @@ export default function Home() {
             {/* TAB 2: UPDATE PROFILE */}
             {activeTab === 'profile' && (
               <div className="hallmark-card p-6 rounded-2xl max-w-xl">
-                <h3 className="text-sm font-mono font-bold uppercase tracking-wider text-white mb-4">
-                  PUT /api/users/me
-                </h3>
+                <h3 className="text-sm font-bold text-white mb-4">Cập nhật Hồ sơ cá nhân</h3>
                 <form onSubmit={handleUpdateProfile} className="space-y-4">
                   <div>
                     <label className="block text-[11px] font-mono text-slate-400 uppercase mb-2">
-                      Full Name
+                      Họ và Tên
                     </label>
                     <input
                       type="text"
@@ -606,9 +649,7 @@ export default function Home() {
             {/* TAB 3: CHANGE PASSWORD */}
             {activeTab === 'security' && (
               <div className="hallmark-card p-6 rounded-2xl max-w-xl">
-                <h3 className="text-sm font-mono font-bold uppercase tracking-wider text-white mb-4">
-                  PUT /api/users/me/password
-                </h3>
+                <h3 className="text-sm font-bold text-white mb-4">Đổi Mật Khẩu</h3>
                 <form onSubmit={handleChangePassword} className="space-y-4">
                   <div>
                     <label className="block text-[11px] font-mono text-slate-400 uppercase mb-2">
@@ -651,24 +692,64 @@ export default function Home() {
               </div>
             )}
 
-            {/* TAB 4: TOKEN DEBUGGER */}
-            {activeTab === 'tokens' && (
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                <div className="hallmark-card p-6 rounded-2xl">
-                  <h3 className="text-xs font-mono uppercase text-indigo-400 mb-3 flex items-center gap-2">
-                    <Key className="w-4 h-4" /> Access Token (Bearer JWT)
-                  </h3>
-                  <div className="p-3 bg-slate-950 rounded-xl border border-white/10 font-mono text-[11px] text-slate-300 break-all max-h-48 overflow-y-auto">
-                    {getAccessToken() || 'Chưa có Token'}
+            {/* TAB 4: SYSTEM INFRASTRUCTURE (ADMIN ONLY) */}
+            {activeTab === 'system' && user.role === 'Admin' && (
+              <div className="space-y-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                  <div className="hallmark-card p-5 rounded-2xl">
+                    <div className="flex items-center justify-between mb-3">
+                      <Server className="w-5 h-5 text-indigo-400" />
+                      <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                    </div>
+                    <h3 className="text-xs font-mono uppercase text-slate-400">YARP API Gateway</h3>
+                    <p className="text-xl font-bold text-white mt-1">Port 8000</p>
+                  </div>
+
+                  <div className="hallmark-card p-5 rounded-2xl">
+                    <div className="flex items-center justify-between mb-3">
+                      <Cpu className="w-5 h-5 text-purple-400" />
+                      <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                    </div>
+                    <h3 className="text-xs font-mono uppercase text-slate-400">Identity Service</h3>
+                    <p className="text-xl font-bold text-white mt-1">Port 5001</p>
+                  </div>
+
+                  <div className="hallmark-card p-5 rounded-2xl">
+                    <div className="flex items-center justify-between mb-3">
+                      <Database className="w-5 h-5 text-blue-400" />
+                      <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                    </div>
+                    <h3 className="text-xs font-mono uppercase text-slate-400">PostgreSQL DB</h3>
+                    <p className="text-xl font-bold text-white mt-1">Port 5432</p>
+                  </div>
+
+                  <div className="hallmark-card p-5 rounded-2xl">
+                    <div className="flex items-center justify-between mb-3">
+                      <Layers className="w-5 h-5 text-emerald-400" />
+                      <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                    </div>
+                    <h3 className="text-xs font-mono uppercase text-slate-400">BuildingBlocks</h3>
+                    <p className="text-xl font-bold text-white mt-1">ISoftDelete Active</p>
                   </div>
                 </div>
 
-                <div className="hallmark-card p-6 rounded-2xl">
-                  <h3 className="text-xs font-mono uppercase text-purple-400 mb-3 flex items-center gap-2">
-                    <RefreshCw className="w-4 h-4" /> Refresh Token (7-Day Rotation)
-                  </h3>
-                  <div className="p-3 bg-slate-950 rounded-xl border border-white/10 font-mono text-[11px] text-slate-300 break-all max-h-48 overflow-y-auto">
-                    {getRefreshToken() || 'Chưa có Token'}
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                  <div className="hallmark-card p-6 rounded-2xl">
+                    <h3 className="text-xs font-mono uppercase text-indigo-400 mb-3 flex items-center gap-2">
+                      <Key className="w-4 h-4" /> Access Token (Bearer JWT)
+                    </h3>
+                    <div className="p-3 bg-slate-950 rounded-xl border border-white/10 font-mono text-[11px] text-slate-300 break-all max-h-48 overflow-y-auto">
+                      {getAccessToken() || 'Chưa có Token'}
+                    </div>
+                  </div>
+
+                  <div className="hallmark-card p-6 rounded-2xl">
+                    <h3 className="text-xs font-mono uppercase text-purple-400 mb-3 flex items-center gap-2">
+                      <RefreshCw className="w-4 h-4" /> Refresh Token (7-Day Rotation)
+                    </h3>
+                    <div className="p-3 bg-slate-950 rounded-xl border border-white/10 font-mono text-[11px] text-slate-300 break-all max-h-48 overflow-y-auto">
+                      {getRefreshToken() || 'Chưa có Token'}
+                    </div>
                   </div>
                 </div>
               </div>
