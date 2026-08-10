@@ -1,6 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using SeoAuto.IdentityService.Domain.Entities;
 using SeoAuto.IdentityService.Infrastructure.Database;
+using SeoAuto.BuildingBlocks.Messaging;
+using MassTransit;
 
 namespace SeoAuto.IdentityService.Features.Auth.Register;
 
@@ -11,7 +13,7 @@ public static class RegisterUserEndpoint
 {
     public static void MapRegisterUserEndpoint(this IEndpointRouteBuilder app)
     {
-        app.MapPost("/api/auth/register", async (RegisterUserRequest request, AppDbContext dbContext) =>
+        app.MapPost("/api/auth/register", async (RegisterUserRequest request, AppDbContext dbContext, IPublishEndpoint publishEndpoint) =>
         {
             // 1. Kiểm tra dữ liệu đầu vào
             if (string.IsNullOrWhiteSpace(request.Email) || string.IsNullOrWhiteSpace(request.Password))
@@ -41,6 +43,13 @@ public static class RegisterUserEndpoint
             };
 
             dbContext.Users.Add(newUser);
+            await publishEndpoint.Publish(new UserRegisteredEvent
+            {
+                UserId = newUser.Id,         // Gán newUser.Id vào thuộc tính UserId
+                Email = newUser.Email,       // Gán newUser.Email vào thuộc tính Email
+                FullName = newUser.FullName  // Gán newUser.FullName vào thuộc tính FullName
+            });
+
             await dbContext.SaveChangesAsync();
 
             return Results.Created($"/api/users/{newUser.Id}", new RegisterUserResponse(newUser.Id, "Đăng ký tài khoản thành công!"));

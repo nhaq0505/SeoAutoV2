@@ -1,0 +1,224 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\anhqu\\source\\repos\\SeoAutoV2\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{FDADFC12-6F0D-4921-8D22-8ED2F426AFE9}|Microservices\\SeoAuto.AuditService\\SeoAuto.AuditService.csproj|c:\\users\\anhqu\\source\\repos\\seoautov2\\microservices\\seoauto.auditservice\\domain\\enums\\auditstatus.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FDADFC12-6F0D-4921-8D22-8ED2F426AFE9}|Microservices\\SeoAuto.AuditService\\SeoAuto.AuditService.csproj|solutionrelative:microservices\\seoauto.auditservice\\domain\\enums\\auditstatus.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FDADFC12-6F0D-4921-8D22-8ED2F426AFE9}|Microservices\\SeoAuto.AuditService\\SeoAuto.AuditService.csproj|c:\\users\\anhqu\\source\\repos\\seoautov2\\microservices\\seoauto.auditservice\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FDADFC12-6F0D-4921-8D22-8ED2F426AFE9}|Microservices\\SeoAuto.AuditService\\SeoAuto.AuditService.csproj|solutionrelative:microservices\\seoauto.auditservice\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FDADFC12-6F0D-4921-8D22-8ED2F426AFE9}|Microservices\\SeoAuto.AuditService\\SeoAuto.AuditService.csproj|c:\\users\\anhqu\\source\\repos\\seoautov2\\microservices\\seoauto.auditservice\\domain\\entities\\rawmetrics.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FDADFC12-6F0D-4921-8D22-8ED2F426AFE9}|Microservices\\SeoAuto.AuditService\\SeoAuto.AuditService.csproj|solutionrelative:microservices\\seoauto.auditservice\\domain\\entities\\rawmetrics.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FDADFC12-6F0D-4921-8D22-8ED2F426AFE9}|Microservices\\SeoAuto.AuditService\\SeoAuto.AuditService.csproj|c:\\users\\anhqu\\source\\repos\\seoautov2\\microservices\\seoauto.auditservice\\domain\\entities\\seoanalysis.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FDADFC12-6F0D-4921-8D22-8ED2F426AFE9}|Microservices\\SeoAuto.AuditService\\SeoAuto.AuditService.csproj|solutionrelative:microservices\\seoauto.auditservice\\domain\\entities\\seoanalysis.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FDADFC12-6F0D-4921-8D22-8ED2F426AFE9}|Microservices\\SeoAuto.AuditService\\SeoAuto.AuditService.csproj|c:\\users\\anhqu\\source\\repos\\seoautov2\\microservices\\seoauto.auditservice\\features\\audits\\submitaudit.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FDADFC12-6F0D-4921-8D22-8ED2F426AFE9}|Microservices\\SeoAuto.AuditService\\SeoAuto.AuditService.csproj|solutionrelative:microservices\\seoauto.auditservice\\features\\audits\\submitaudit.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FDADFC12-6F0D-4921-8D22-8ED2F426AFE9}|Microservices\\SeoAuto.AuditService\\SeoAuto.AuditService.csproj|c:\\users\\anhqu\\source\\repos\\seoautov2\\microservices\\seoauto.auditservice\\domain\\entities\\auditrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FDADFC12-6F0D-4921-8D22-8ED2F426AFE9}|Microservices\\SeoAuto.AuditService\\SeoAuto.AuditService.csproj|solutionrelative:microservices\\seoauto.auditservice\\domain\\entities\\auditrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FDADFC12-6F0D-4921-8D22-8ED2F426AFE9}|Microservices\\SeoAuto.AuditService\\SeoAuto.AuditService.csproj|c:\\users\\anhqu\\source\\repos\\seoautov2\\microservices\\seoauto.auditservice\\infrastructure\\database\\auditdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FDADFC12-6F0D-4921-8D22-8ED2F426AFE9}|Microservices\\SeoAuto.AuditService\\SeoAuto.AuditService.csproj|solutionrelative:microservices\\seoauto.auditservice\\infrastructure\\database\\auditdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DAA8F101-6C0A-4138-A0B1-E7E9C04265EE}|Microservices\\SeoAuto.IdentityService\\SeoAuto.IdentityService.csproj|c:\\users\\anhqu\\source\\repos\\seoautov2\\microservices\\seoauto.identityservice\\features\\auth\\login\\loginuser.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DAA8F101-6C0A-4138-A0B1-E7E9C04265EE}|Microservices\\SeoAuto.IdentityService\\SeoAuto.IdentityService.csproj|solutionrelative:microservices\\seoauto.identityservice\\features\\auth\\login\\loginuser.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DAA8F101-6C0A-4138-A0B1-E7E9C04265EE}|Microservices\\SeoAuto.IdentityService\\SeoAuto.IdentityService.csproj|c:\\users\\anhqu\\source\\repos\\seoautov2\\microservices\\seoauto.identityservice\\features\\auth\\register\\registeruser.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DAA8F101-6C0A-4138-A0B1-E7E9C04265EE}|Microservices\\SeoAuto.IdentityService\\SeoAuto.IdentityService.csproj|solutionrelative:microservices\\seoauto.identityservice\\features\\auth\\register\\registeruser.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3C1533C8-4CB0-48FE-813B-E452EF8C2986}|BuildingBlocks\\SeoAuto.BuildingBlocks\\SeoAuto.BuildingBlocks.csproj|c:\\users\\anhqu\\source\\repos\\seoautov2\\buildingblocks\\seoauto.buildingblocks\\messaging\\auditrequestedevent.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3C1533C8-4CB0-48FE-813B-E452EF8C2986}|BuildingBlocks\\SeoAuto.BuildingBlocks\\SeoAuto.BuildingBlocks.csproj|solutionrelative:buildingblocks\\seoauto.buildingblocks\\messaging\\auditrequestedevent.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3C1533C8-4CB0-48FE-813B-E452EF8C2986}|BuildingBlocks\\SeoAuto.BuildingBlocks\\SeoAuto.BuildingBlocks.csproj|c:\\users\\anhqu\\source\\repos\\seoautov2\\buildingblocks\\seoauto.buildingblocks\\messaging\\userregisteredevent.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3C1533C8-4CB0-48FE-813B-E452EF8C2986}|BuildingBlocks\\SeoAuto.BuildingBlocks\\SeoAuto.BuildingBlocks.csproj|solutionrelative:buildingblocks\\seoauto.buildingblocks\\messaging\\userregisteredevent.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FDADFC12-6F0D-4921-8D22-8ED2F426AFE9}|Microservices\\SeoAuto.AuditService\\SeoAuto.AuditService.csproj|c:\\users\\anhqu\\source\\repos\\seoautov2\\microservices\\seoauto.auditservice\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{FDADFC12-6F0D-4921-8D22-8ED2F426AFE9}|Microservices\\SeoAuto.AuditService\\SeoAuto.AuditService.csproj|solutionrelative:microservices\\seoauto.auditservice\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 11,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "RegisterUser.cs",
+              "DocumentMoniker": "C:\\Users\\anhqu\\source\\repos\\SeoAutoV2\\Microservices\\SeoAuto.IdentityService\\Features\\Auth\\Register\\RegisterUser.cs",
+              "RelativeDocumentMoniker": "Microservices\\SeoAuto.IdentityService\\Features\\Auth\\Register\\RegisterUser.cs",
+              "ToolTip": "C:\\Users\\anhqu\\source\\repos\\SeoAutoV2\\Microservices\\SeoAuto.IdentityService\\Features\\Auth\\Register\\RegisterUser.cs",
+              "RelativeToolTip": "Microservices\\SeoAuto.IdentityService\\Features\\Auth\\Register\\RegisterUser.cs",
+              "ViewState": "AgIAAB0AAAAAAAAAAAAwwBMAAAANAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-08-07T11:36:23.88Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "LoginUser.cs",
+              "DocumentMoniker": "C:\\Users\\anhqu\\source\\repos\\SeoAutoV2\\Microservices\\SeoAuto.IdentityService\\Features\\Auth\\Login\\LoginUser.cs",
+              "RelativeDocumentMoniker": "Microservices\\SeoAuto.IdentityService\\Features\\Auth\\Login\\LoginUser.cs",
+              "ToolTip": "C:\\Users\\anhqu\\source\\repos\\SeoAutoV2\\Microservices\\SeoAuto.IdentityService\\Features\\Auth\\Login\\LoginUser.cs",
+              "RelativeToolTip": "Microservices\\SeoAuto.IdentityService\\Features\\Auth\\Login\\LoginUser.cs",
+              "ViewState": "AgIAAD4AAAAAAAAAAAAwwEgAAAA1AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-08-07T11:35:32.361Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "SubmitAudit.cs",
+              "DocumentMoniker": "C:\\Users\\anhqu\\source\\repos\\SeoAutoV2\\Microservices\\SeoAuto.AuditService\\Features\\Audits\\SubmitAudit.cs",
+              "RelativeDocumentMoniker": "Microservices\\SeoAuto.AuditService\\Features\\Audits\\SubmitAudit.cs",
+              "ToolTip": "C:\\Users\\anhqu\\source\\repos\\SeoAutoV2\\Microservices\\SeoAuto.AuditService\\Features\\Audits\\SubmitAudit.cs",
+              "RelativeToolTip": "Microservices\\SeoAuto.AuditService\\Features\\Audits\\SubmitAudit.cs",
+              "ViewState": "AgIAADgAAAAAAAAAAAAwwE8AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-08-07T09:33:38.35Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "UserRegisteredEvent.cs",
+              "DocumentMoniker": "C:\\Users\\anhqu\\source\\repos\\SeoAutoV2\\BuildingBlocks\\SeoAuto.BuildingBlocks\\Messaging\\UserRegisteredEvent.cs",
+              "RelativeDocumentMoniker": "BuildingBlocks\\SeoAuto.BuildingBlocks\\Messaging\\UserRegisteredEvent.cs",
+              "ToolTip": "C:\\Users\\anhqu\\source\\repos\\SeoAutoV2\\BuildingBlocks\\SeoAuto.BuildingBlocks\\Messaging\\UserRegisteredEvent.cs",
+              "RelativeToolTip": "BuildingBlocks\\SeoAuto.BuildingBlocks\\Messaging\\UserRegisteredEvent.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-08-07T09:28:22.823Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "AuditRequestedEvent.cs",
+              "DocumentMoniker": "C:\\Users\\anhqu\\source\\repos\\SeoAutoV2\\BuildingBlocks\\SeoAuto.BuildingBlocks\\Messaging\\AuditRequestedEvent.cs",
+              "RelativeDocumentMoniker": "BuildingBlocks\\SeoAuto.BuildingBlocks\\Messaging\\AuditRequestedEvent.cs",
+              "ToolTip": "C:\\Users\\anhqu\\source\\repos\\SeoAutoV2\\BuildingBlocks\\SeoAuto.BuildingBlocks\\Messaging\\AuditRequestedEvent.cs",
+              "RelativeToolTip": "BuildingBlocks\\SeoAuto.BuildingBlocks\\Messaging\\AuditRequestedEvent.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-08-07T09:28:06.674Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\anhqu\\source\\repos\\SeoAutoV2\\Microservices\\SeoAuto.AuditService\\Program.cs",
+              "RelativeDocumentMoniker": "Microservices\\SeoAuto.AuditService\\Program.cs",
+              "ToolTip": "C:\\Users\\anhqu\\source\\repos\\SeoAutoV2\\Microservices\\SeoAuto.AuditService\\Program.cs",
+              "RelativeToolTip": "Microservices\\SeoAuto.AuditService\\Program.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAEAAAALAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-08-07T09:19:59.083Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "C:\\Users\\anhqu\\source\\repos\\SeoAutoV2\\Microservices\\SeoAuto.AuditService\\appsettings.json",
+              "RelativeDocumentMoniker": "Microservices\\SeoAuto.AuditService\\appsettings.json",
+              "ToolTip": "C:\\Users\\anhqu\\source\\repos\\SeoAutoV2\\Microservices\\SeoAuto.AuditService\\appsettings.json",
+              "RelativeToolTip": "Microservices\\SeoAuto.AuditService\\appsettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2026-08-07T09:19:48.466Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "AuditRequest.cs",
+              "DocumentMoniker": "C:\\Users\\anhqu\\source\\repos\\SeoAutoV2\\Microservices\\SeoAuto.AuditService\\Domain\\Entities\\AuditRequest.cs",
+              "RelativeDocumentMoniker": "Microservices\\SeoAuto.AuditService\\Domain\\Entities\\AuditRequest.cs",
+              "ToolTip": "C:\\Users\\anhqu\\source\\repos\\SeoAutoV2\\Microservices\\SeoAuto.AuditService\\Domain\\Entities\\AuditRequest.cs",
+              "RelativeToolTip": "Microservices\\SeoAuto.AuditService\\Domain\\Entities\\AuditRequest.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-08-07T09:15:35.083Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "AuditDbContext.cs",
+              "DocumentMoniker": "C:\\Users\\anhqu\\source\\repos\\SeoAutoV2\\Microservices\\SeoAuto.AuditService\\Infrastructure\\Database\\AuditDbContext.cs",
+              "RelativeDocumentMoniker": "Microservices\\SeoAuto.AuditService\\Infrastructure\\Database\\AuditDbContext.cs",
+              "ToolTip": "C:\\Users\\anhqu\\source\\repos\\SeoAutoV2\\Microservices\\SeoAuto.AuditService\\Infrastructure\\Database\\AuditDbContext.cs",
+              "RelativeToolTip": "Microservices\\SeoAuto.AuditService\\Infrastructure\\Database\\AuditDbContext.cs",
+              "ViewState": "AgIAABQAAAAAAAAAAAAIwBsAAAA6AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-08-07T09:07:59.57Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "SeoAnalysis.cs",
+              "DocumentMoniker": "C:\\Users\\anhqu\\source\\repos\\SeoAutoV2\\Microservices\\SeoAuto.AuditService\\Domain\\Entities\\SeoAnalysis.cs",
+              "RelativeDocumentMoniker": "Microservices\\SeoAuto.AuditService\\Domain\\Entities\\SeoAnalysis.cs",
+              "ToolTip": "C:\\Users\\anhqu\\source\\repos\\SeoAutoV2\\Microservices\\SeoAuto.AuditService\\Domain\\Entities\\SeoAnalysis.cs",
+              "RelativeToolTip": "Microservices\\SeoAuto.AuditService\\Domain\\Entities\\SeoAnalysis.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAxAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-08-07T09:01:33.584Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "RawMetrics.cs",
+              "DocumentMoniker": "C:\\Users\\anhqu\\source\\repos\\SeoAutoV2\\Microservices\\SeoAuto.AuditService\\Domain\\Entities\\RawMetrics.cs",
+              "RelativeDocumentMoniker": "Microservices\\SeoAuto.AuditService\\Domain\\Entities\\RawMetrics.cs",
+              "ToolTip": "C:\\Users\\anhqu\\source\\repos\\SeoAutoV2\\Microservices\\SeoAuto.AuditService\\Domain\\Entities\\RawMetrics.cs",
+              "RelativeToolTip": "Microservices\\SeoAuto.AuditService\\Domain\\Entities\\RawMetrics.cs",
+              "ViewState": "AgIAAAcAAAAAAAAAAAAgwBQAAAA7AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-08-07T08:58:03.744Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "AuditStatus.cs",
+              "DocumentMoniker": "C:\\Users\\anhqu\\source\\repos\\SeoAutoV2\\Microservices\\SeoAuto.AuditService\\Domain\\Enums\\AuditStatus.cs",
+              "RelativeDocumentMoniker": "Microservices\\SeoAuto.AuditService\\Domain\\Enums\\AuditStatus.cs",
+              "ToolTip": "C:\\Users\\anhqu\\source\\repos\\SeoAutoV2\\Microservices\\SeoAuto.AuditService\\Domain\\Enums\\AuditStatus.cs",
+              "RelativeToolTip": "Microservices\\SeoAuto.AuditService\\Domain\\Enums\\AuditStatus.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-08-07T08:54:03.224Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+[
+  {
+    "Name": "New Profile",
+    "Projects": [
+      {
+        "Path": "Microservices\\SeoAuto.IdentityService\\SeoAuto.IdentityService.csproj",
+        "Action": "Start"
+      },
+      {
+        "Path": "Microservices\\SeoAuto.AuditService\\SeoAuto.AuditService.csproj",
+        "Action": "Start"
+      }
+    ]
+  }
+]

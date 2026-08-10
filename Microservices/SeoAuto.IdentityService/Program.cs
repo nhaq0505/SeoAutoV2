@@ -1,7 +1,9 @@
-using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Scalar.AspNetCore;
+using SeoAuto.BuildingBlocks.Messaging;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -26,6 +28,7 @@ builder.Services.AddCors(options =>
 // Đăng ký Global Exception Handler từ BuildingBlocks
 builder.Services.AddExceptionHandler<SeoAuto.BuildingBlocks.Exceptions.GlobalExceptionHandler>();
 builder.Services.AddProblemDetails();
+builder.Services.AddMessageBroker(builder.Configuration);
 
 // Cấu hình JWT Authentication Middleware
 var secretKey = builder.Configuration["JwtSettings:Secret"] ?? "SuperSecretKeyForSeoAutoV2ProjectMinimum32BytesLong!";
@@ -59,6 +62,7 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
+    app.MapScalarApiReference();
 }
 
 app.UseExceptionHandler();
