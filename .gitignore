@@ -7,3 +7,5 @@ riderModule.iml
 .vscode/
 .DS_Store
 scratch_dotnet/
+.vs/
+*.user

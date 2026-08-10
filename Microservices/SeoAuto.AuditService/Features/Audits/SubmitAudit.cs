@@ -1,11 +1,13 @@
-﻿using MassTransit;
+using MassTransit;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 using SeoAuto.AuditService.Domain.Entities;
 using SeoAuto.AuditService.Domain.Enums;
+using System.Security.Claims;
 using SeoAuto.AuditService.Infrastructure.Database;
 using SeoAuto.BuildingBlocks.Messaging;
+using SeoAuto.BuildingBlocks.Exceptions;
 using System;
 
 namespace SeoAuto.AuditService.Features.Audits.SubmitAudit;
@@ -19,7 +21,7 @@ public static class SubmitAuditEndpoint
     public static void MapSubmitAuditEndpoint(this IEndpointRouteBuilder app)
     {
         // Chú ý: Dùng AuditDbContext
-        app.MapPost("/api/audits/submit", async (SubmitAuditRequest request, AuditDbContext dbContext, IPublishEndpoint publishEndpoint) =>
+        app.MapPost("/api/audits/submit", async (SubmitAuditRequest request, AuditDbContext dbContext, IPublishEndpoint publishEndpoint, ClaimsPrincipal user) =>
         {
             // 1. Kiểm tra tính hợp lệ của URL (Bao gồm chống SSRF - Yêu cầu FR-301)
             if (!IsValidPublicUrl(request.Url))
@@ -32,12 +34,21 @@ public static class SubmitAuditEndpoint
                 ? parsedStrategy
                 : AuditStrategy.Desktop;
 
+
+            //Lấy UserId từ ClaimsPrincipal (nếu có)
+            var userIdString = user.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? user.FindFirst("sub")?.Value;
+            if (string.IsNullOrEmpty(userIdString) || !Guid.TryParse(userIdString, out var userId))
+            {
+                // Nếu không có UserId trong token, trả về lỗi 401 Unauthorized
+                throw new UnAuthorizedException("UserId không hợp lệ hoặc không tìm thấy trong token.");
+            }
+
             // 3. Tạo bản ghi AuditRequest mới với trạng thái Pending
             var newRequest = new AuditRequest
             {
                 Id = Guid.NewGuid(),
                 // Tạm thời Fake UserId vì chúng ta chưa học phần Giải mã Token Đăng nhập
-                UserId = Guid.Parse("00000000-0000-0000-0000-000000000001"),
+                UserId = userId,
                 Url = request.Url,
                 Status = AuditStatus.Pending,
                 Strategy = strategy,
@@ -61,7 +72,8 @@ public static class SubmitAuditEndpoint
             return Results.Accepted($"/api/audits/{newRequest.Id}", new SubmitAuditResponse(newRequest.Id, "Yêu cầu Audit đã được đưa vào hàng đợi!"));
         })
         .WithName("SubmitAudit")
-        .WithTags("Audits");
+        .WithTags("Audits")
+        .RequireAuthorization(); // Yêu cầu người dùng phải đăng nhập để Submit Audit
     }
 
     // --- Hàm Helper: Xác thực URL và Chống SSRF ---
