@@ -7,6 +7,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using SeoAuto.AuditService.Features.Audits.SubmitAudit;
 using Scalar.AspNetCore;
+using SeoAuto.AuditService.Infrastructure.ExternalService;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,7 +18,10 @@ builder.Services.AddOpenApi();
 builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 builder.Services.AddProblemDetails();
 builder.Services.AddDbContext<AuditDbContext>(options => options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
-
+builder.Services.AddHttpClient<IPageSpeedService, PageSpeedService>(client =>
+{
+    client.Timeout = TimeSpan.FromMinutes(2); // Google PageSpeed phân tích có thể tốn 30s - 1 phút
+});
 // 3. Kích hoạt RabbitMQ (Xe chở thư)
 builder.Services.AddMessageBroker(builder.Configuration, typeof(Program).Assembly);
 
