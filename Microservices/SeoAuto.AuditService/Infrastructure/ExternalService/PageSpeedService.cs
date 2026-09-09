@@ -10,6 +10,7 @@ namespace SeoAuto.AuditService.Infrastructure.ExternalService
         private readonly ILogger<PageSpeedService> _logger;
         private readonly AuditDbContext _dbContext;
         private readonly IConfiguration _configuration;
+      
 
         public PageSpeedService(HttpClient httpClient, ILogger<PageSpeedService> logger, AuditDbContext dbContext, IConfiguration configuration)
         {   
@@ -17,6 +18,7 @@ namespace SeoAuto.AuditService.Infrastructure.ExternalService
             _logger = logger;
             _dbContext = dbContext;
             _configuration = configuration;
+           
         }
 
         public async Task<RawMetrics> GetPageSpeedMetricsAsync(Guid auditRequestId, string strategy, string url, CancellationToken cancellationToken = default)

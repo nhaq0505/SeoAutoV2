@@ -1,8 +1,9 @@
-﻿using MassTransit;
+using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using SeoAuto.AuditService.Domain.Enums;
 using SeoAuto.AuditService.Infrastructure.Database;
+using SeoAuto.AuditService.Infrastructure.ExternalService;
 using SeoAuto.BuildingBlocks.Messaging;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
@@ -14,11 +15,16 @@ namespace SeoAuto.AuditService.Features.Audits.ProcessAudit
     {
         private readonly ILogger<AuditRequestedConsumer> _logger;
         private readonly AuditDbContext _dbContext;
+        private readonly IPageSpeedService _pageSpeedService;
+        private readonly IHtmlService _htmlService;
 
-        public AuditRequestedConsumer(ILogger<AuditRequestedConsumer> logger, AuditDbContext dbContext)
+        public AuditRequestedConsumer(ILogger<AuditRequestedConsumer> logger, AuditDbContext dbContext, IPageSpeedService pageSpeedService, IHtmlService htmlService)
         {
             _logger = logger;
             _dbContext = dbContext;
+            _pageSpeedService = pageSpeedService;
+            _htmlService = htmlService;
+
         }
 
 
@@ -42,6 +48,16 @@ namespace SeoAuto.AuditService.Features.Audits.ProcessAudit
                 await _dbContext.SaveChangesAsync();
                 _logger.LogInformation("Updated AuditRequest status to Processing for Id {AuditId}.", message.AuditId);
 
+                var rawMetrics = await _pageSpeedService.GetPageSpeedMetricsAsync(auditRequest.Id,
+                    message.Strategy,
+                    message.Url,
+                    context.CancellationToken);
+                _dbContext.RawMetrics.Add(rawMetrics);
+
+                var seoAnylysis = await _htmlService.SeoAnalysisAsync(auditRequest.Id, message.Url, context.CancellationToken);
+                _dbContext.SeoAnalyses.Add(seoAnylysis);
+
+                await _dbContext.SaveChangesAsync();
                 //TODO Gọi API GooglePageSpeed , Cào HTML phân tích SEO Onpage
 
                 auditRequest.Status = AuditStatus.Completed;

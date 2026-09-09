@@ -24,6 +24,12 @@ builder.Services.AddHttpClient<IPageSpeedService, PageSpeedService>(client =>
 });
 // 3. Kích hoạt RabbitMQ (Xe chở thư)
 builder.Services.AddMessageBroker(builder.Configuration, typeof(Program).Assembly);
+builder.Services.AddHttpClient<IHtmlService, HtmlService>(client =>
+{
+    client.Timeout = TimeSpan.FromSeconds(30);
+    client.DefaultRequestHeaders.UserAgent.ParseAdd("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36 SeoAutoBot/1.0");
+});
+
 
 //Middlerware Authentication JWT
 var secretKey = builder.Configuration["JwtSettings:Secret"] ?? "SuperSecretKeyForSeoAutoV2ProjectMinimum32BytesLong!";
