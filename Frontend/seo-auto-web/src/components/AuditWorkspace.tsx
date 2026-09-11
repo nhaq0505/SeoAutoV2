@@ -27,13 +27,20 @@ import {
 
 interface AuditWorkspaceProps {
   showAlert: (type: 'success' | 'error', text: string) => void;
+  initialUrl?: string;
 }
 
-export default function AuditWorkspace({ showAlert }: AuditWorkspaceProps) {
+export default function AuditWorkspace({ showAlert, initialUrl }: AuditWorkspaceProps) {
   // Input form state
-  const [url, setUrl] = useState('');
+  const [url, setUrl] = useState(initialUrl || '');
   const [strategy, setStrategy] = useState<'Desktop' | 'Mobile'>('Desktop');
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  useEffect(() => {
+    if (initialUrl) {
+      setUrl(initialUrl);
+    }
+  }, [initialUrl]);
 
   // Active audit and polling state
   const [activeAudit, setActiveAudit] = useState<AuditDetail | null>(null);

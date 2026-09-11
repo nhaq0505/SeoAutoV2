@@ -104,6 +104,87 @@ export interface PagedResult<T> {
   totalPages: number;
 }
 
+// Projects & Websites Interfaces
+export interface CreateProjectPayload {
+  name: string;
+  description?: string;
+}
+
+export interface ProjectSummary {
+  id: string;
+  name: string;
+  description?: string | null;
+  createdAt: string;
+  websiteCount: number;
+  latestScore?: number | null;
+}
+
+export interface WebsiteSummary {
+  id: string;
+  projectId: string;
+  url: string;
+  name: string;
+  faviconUrl?: string | null;
+  createdAt: string;
+  latestOverallScore?: number | null;
+  latestAuditDate?: string | null;
+}
+
+export interface ProjectDetail {
+  id: string;
+  name: string;
+  description?: string | null;
+  createdAt: string;
+  websites: WebsiteSummary[];
+}
+
+export interface CreateWebsitePayload {
+  projectId: string;
+  url: string;
+  name: string;
+  faviconUrl?: string;
+}
+
+export interface WebsiteReportItem {
+  id: string;
+  auditRequestId: string;
+  strategy: string;
+  overallScore: number;
+  performanceScore: number;
+  seoScore: number;
+  accessibilityScore: number;
+  bestPracticesScore: number;
+  createdAt: string;
+}
+
+export interface WebsiteDetail {
+  id: string;
+  projectId: string;
+  projectName: string;
+  url: string;
+  name: string;
+  faviconUrl?: string | null;
+  createdAt: string;
+  latestOverallScore?: number | null;
+  latestAuditDate?: string | null;
+  recentReports: WebsiteReportItem[];
+}
+
+export interface ScoreHistoryPoint {
+  date: string;
+  overallScore: number;
+  performanceScore: number;
+  seoScore: number;
+  accessibilityScore: number;
+  bestPracticesScore: number;
+}
+
+export interface ReportHistoryResponse {
+  websiteId?: string | null;
+  url?: string | null;
+  history: ScoreHistoryPoint[];
+}
+
 // Token Storage Helpers
 export const getAccessToken = () => typeof window !== 'undefined' ? localStorage.getItem('access_token') : null;
 export const getRefreshToken = () => typeof window !== 'undefined' ? localStorage.getItem('refresh_token') : null;
@@ -257,6 +338,92 @@ export const api = {
     const res = await fetchWithAuth(`/api/audits/my?page=${page}&pageSize=${pageSize}`);
     const json = await res.json();
     if (!res.ok) throw new Error(json.message || json.detail || 'Không thể tải lịch sử Audit');
+    return json;
+  },
+
+  // Projects Endpoints
+  getProjects: async (): Promise<ProjectSummary[]> => {
+    const res = await fetchWithAuth('/api/projects');
+    const json = await res.json();
+    if (!res.ok) throw new Error(json.message || json.detail || 'Không thể tải danh sách dự án');
+    return json;
+  },
+
+  getProjectById: async (id: string): Promise<ProjectDetail> => {
+    const res = await fetchWithAuth(`/api/projects/${id}`);
+    const json = await res.json();
+    if (!res.ok) throw new Error(json.message || json.detail || 'Không thể lấy thông tin dự án');
+    return json;
+  },
+
+  createProject: async (data: CreateProjectPayload): Promise<ProjectSummary> => {
+    const res = await fetchWithAuth('/api/projects', {
+      method: 'POST',
+      body: JSON.stringify(data),
+    });
+    const json = await res.json();
+    if (!res.ok) throw new Error(json.message || json.detail || 'Không thể tạo dự án');
+    return json;
+  },
+
+  deleteProject: async (id: string): Promise<void> => {
+    const res = await fetchWithAuth(`/api/projects/${id}`, {
+      method: 'DELETE',
+    });
+    if (!res.ok) {
+      const json = await res.json().catch(() => ({}));
+      throw new Error(json.message || json.detail || 'Không thể xóa dự án');
+    }
+  },
+
+  // Websites Endpoints
+  getWebsites: async (projectId?: string): Promise<WebsiteSummary[]> => {
+    const query = projectId ? `?projectId=${projectId}` : '';
+    const res = await fetchWithAuth(`/api/websites${query}`);
+    const json = await res.json();
+    if (!res.ok) throw new Error(json.message || json.detail || 'Không thể tải danh sách website');
+    return json;
+  },
+
+  getWebsiteById: async (id: string): Promise<WebsiteDetail> => {
+    const res = await fetchWithAuth(`/api/websites/${id}`);
+    const json = await res.json();
+    if (!res.ok) throw new Error(json.message || json.detail || 'Không thể lấy thông tin website');
+    return json;
+  },
+
+  createWebsite: async (data: CreateWebsitePayload): Promise<WebsiteSummary> => {
+    const res = await fetchWithAuth('/api/websites', {
+      method: 'POST',
+      body: JSON.stringify(data),
+    });
+    const json = await res.json();
+    if (!res.ok) throw new Error(json.message || json.detail || 'Không thể thêm website vào dự án');
+    return json;
+  },
+
+  deleteWebsite: async (id: string): Promise<void> => {
+    const res = await fetchWithAuth(`/api/websites/${id}`, {
+      method: 'DELETE',
+    });
+    if (!res.ok) {
+      const json = await res.json().catch(() => ({}));
+      throw new Error(json.message || json.detail || 'Không thể xóa website');
+    }
+  },
+
+  // Reports Endpoints
+  getReportHistory: async (params: { websiteId?: string; url?: string; from?: string; to?: string }): Promise<ReportHistoryResponse> => {
+    const queryParts: string[] = [];
+    if (params.websiteId) queryParts.push(`websiteId=${encodeURIComponent(params.websiteId)}`);
+    if (params.url) queryParts.push(`url=${encodeURIComponent(params.url)}`);
+    if (params.from) queryParts.push(`from=${encodeURIComponent(params.from)}`);
+    if (params.to) queryParts.push(`to=${encodeURIComponent(params.to)}`);
+    const query = queryParts.length > 0 ? `?${queryParts.join('&')}` : '';
+
+    const res = await fetchWithAuth(`/api/reports/history${query}`);
+    const json = await res.json();
+    if (!res.ok) throw new Error(json.message || json.detail || 'Không thể tải lịch sử điểm số');
     return json;
   },
 };

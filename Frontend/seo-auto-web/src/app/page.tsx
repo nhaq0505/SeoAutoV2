@@ -4,6 +4,8 @@
 import { useState, useEffect } from 'react';
 import { api, getAccessToken, clearTokens, UserProfile, getRefreshToken } from '@/lib/api';
 import AuditWorkspace from '@/components/AuditWorkspace';
+import ProjectsWorkspace from '@/components/ProjectsWorkspace';
+import TrendsWorkspace from '@/components/TrendsWorkspace';
 import { 
   ShieldCheck, 
   User, 
@@ -29,7 +31,9 @@ import {
   Search,
   BarChart3,
   Check,
-  LayoutDashboard
+  LayoutDashboard,
+  Folder,
+  TrendingUp
 } from 'lucide-react';
 
 export default function Home() {
@@ -41,7 +45,9 @@ export default function Home() {
   const [authMode, setAuthMode] = useState<'login' | 'register'>('login');
 
   // Dashboard Tabs (Dashboard View)
-  const [activeTab, setActiveTab] = useState<'audit' | 'profile' | 'security' | 'system'>('audit');
+  const [activeTab, setActiveTab] = useState<'audit' | 'projects' | 'trends' | 'profile' | 'security' | 'system'>('audit');
+  const [auditPrefillUrl, setAuditPrefillUrl] = useState<string>('');
+  const [trendsWebsiteId, setTrendsWebsiteId] = useState<string>('');
 
   // Input States
   const [loginEmail, setLoginEmail] = useState('');
@@ -180,6 +186,16 @@ export default function Home() {
     clearTokens();
     setUser(null);
     showAlert('success', 'Đã đăng xuất khỏi hệ thống');
+  };
+
+  const handleAuditWebsite = (targetUrl: string) => {
+    setAuditPrefillUrl(targetUrl);
+    setActiveTab('audit');
+  };
+
+  const handleViewTrends = (websiteId: string) => {
+    setTrendsWebsiteId(websiteId);
+    setActiveTab('trends');
   };
 
   const fillDemoLogin = () => {
@@ -468,6 +484,28 @@ export default function Home() {
               </button>
 
               <button
+                onClick={() => setActiveTab('projects')}
+                className={`px-4 py-2 text-xs font-mono font-semibold rounded-xl transition flex items-center gap-2 ${
+                  activeTab === 'projects'
+                    ? 'bg-indigo-600 text-white'
+                    : 'text-slate-400 hover:text-slate-200 hover:bg-slate-900'
+                }`}
+              >
+                <Folder className="w-3.5 h-3.5" /> Dự án & Websites
+              </button>
+
+              <button
+                onClick={() => setActiveTab('trends')}
+                className={`px-4 py-2 text-xs font-mono font-semibold rounded-xl transition flex items-center gap-2 ${
+                  activeTab === 'trends'
+                    ? 'bg-indigo-600 text-white'
+                    : 'text-slate-400 hover:text-slate-200 hover:bg-slate-900'
+                }`}
+              >
+                <TrendingUp className="w-3.5 h-3.5" /> Xu hướng & Lịch sử
+              </button>
+
+              <button
                 onClick={() => setActiveTab('profile')}
                 className={`px-4 py-2 text-xs font-mono font-semibold rounded-xl transition flex items-center gap-2 ${
                   activeTab === 'profile'
@@ -506,7 +544,25 @@ export default function Home() {
 
             {/* TAB 1: SEO AUDIT SEARCH WORKSPACE (CUSTOMER VIEW) */}
             {activeTab === 'audit' && (
-              <AuditWorkspace showAlert={showAlert} />
+              <AuditWorkspace showAlert={showAlert} initialUrl={auditPrefillUrl} />
+            )}
+
+            {/* TAB 2: PROJECTS & WEBSITES MANAGEMENT WORKSPACE */}
+            {activeTab === 'projects' && (
+              <ProjectsWorkspace
+                showAlert={showAlert}
+                onAuditWebsite={handleAuditWebsite}
+                onViewTrends={handleViewTrends}
+              />
+            )}
+
+            {/* TAB 3: TRENDS & HISTORICAL CORE WEB VITALS */}
+            {activeTab === 'trends' && (
+              <TrendsWorkspace
+                initialWebsiteId={trendsWebsiteId}
+                showAlert={showAlert}
+                onAuditNow={handleAuditWebsite}
+              />
             )}
 
             {/* TAB 2: UPDATE PROFILE */}
