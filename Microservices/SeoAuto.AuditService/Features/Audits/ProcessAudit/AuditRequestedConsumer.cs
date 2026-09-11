@@ -5,9 +5,7 @@ using SeoAuto.AuditService.Domain.Enums;
 using SeoAuto.AuditService.Infrastructure.Database;
 using SeoAuto.AuditService.Infrastructure.ExternalService;
 using SeoAuto.BuildingBlocks.Messaging;
-using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
-
 
 namespace SeoAuto.AuditService.Features.Audits.ProcessAudit
 {
@@ -24,10 +22,7 @@ namespace SeoAuto.AuditService.Features.Audits.ProcessAudit
             _dbContext = dbContext;
             _pageSpeedService = pageSpeedService;
             _htmlService = htmlService;
-
         }
-
-
 
         public async Task Consume(ConsumeContext<AuditRequestedEvent> context)
         {
@@ -48,17 +43,17 @@ namespace SeoAuto.AuditService.Features.Audits.ProcessAudit
                 await _dbContext.SaveChangesAsync();
                 _logger.LogInformation("Updated AuditRequest status to Processing for Id {AuditId}.", message.AuditId);
 
-                var rawMetrics = await _pageSpeedService.GetPageSpeedMetricsAsync(auditRequest.Id,
-                    message.Strategy,
-                    message.Url,
-                    context.CancellationToken);
+                // Chạy song song cả Google PageSpeed API và cào HTML On-page bằng Task.WhenAll
+                var pageSpeedTask = _pageSpeedService.GetPageSpeedMetricsAsync(auditRequest.Id, message.Strategy, message.Url, context.CancellationToken);
+                var htmlTask = _htmlService.SeoAnalysisAsync(auditRequest.Id, message.Url, context.CancellationToken);
+
+                await Task.WhenAll(pageSpeedTask, htmlTask);
+
+                var rawMetrics = await pageSpeedTask;
+                var seoAnalysis = await htmlTask;
+
                 _dbContext.RawMetrics.Add(rawMetrics);
-
-                var seoAnylysis = await _htmlService.SeoAnalysisAsync(auditRequest.Id, message.Url, context.CancellationToken);
-                _dbContext.SeoAnalyses.Add(seoAnylysis);
-
-                await _dbContext.SaveChangesAsync();
-                //TODO Gọi API GooglePageSpeed , Cào HTML phân tích SEO Onpage
+                _dbContext.SeoAnalyses.Add(seoAnalysis);
 
                 auditRequest.Status = AuditStatus.Completed;
                 auditRequest.CompletedAt = DateTime.UtcNow;
@@ -67,11 +62,18 @@ namespace SeoAuto.AuditService.Features.Audits.ProcessAudit
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error occurred while updating AuditRequest status for Id {AuditId}.", message.AuditId);
+                _logger.LogError(ex, "Error occurred while processing AuditRequest for Id {AuditId}.", message.AuditId);
 
-                auditRequest.Status = AuditStatus.Failed;
-                auditRequest.ErrorMessage = ex.Message;
-                await _dbContext.SaveChangesAsync();
+                // Dọn dẹp ChangeTracker để tránh lưu các entity thêm dở dang khi bị lỗi
+                _dbContext.ChangeTracker.Clear();
+
+                var failedAudit = await _dbContext.AuditRequests.FirstOrDefaultAsync(a => a.Id == message.AuditId);
+                if (failedAudit != null)
+                {
+                    failedAudit.Status = AuditStatus.Failed;
+                    failedAudit.ErrorMessage = ex.Message;
+                    await _dbContext.SaveChangesAsync();
+                }
             }
         }
     }

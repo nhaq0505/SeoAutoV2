@@ -1,4 +1,4 @@
-﻿using MassTransit;
+using MassTransit;
 using SeoAuto.BuildingBlocks.Messaging;
 
 
@@ -17,12 +17,8 @@ public class UserRegisteredConsumer : IConsumer<UserRegisteredEvent>
     {
         var eventData = context.Message;
 
-        _logger.LogInformation("\n==============================================");
-        _logger.LogInformation("🎉 AUDIT SERVICE DA BAT DUOC EVENT!");
-        _logger.LogInformation("   => Chao Mung User: {FullName}", eventData.FullName);
-        _logger.LogInformation("   => Email: {Email}", eventData.Email);
-        _logger.LogInformation("   => Da Cap San 10 luot Audit Free");
-        _logger.LogInformation("==============================================\n");
+        _logger.LogInformation("UserRegisteredEvent received for UserId: {UserId}, Email: {Email}, FullName: {FullName}. Initial free quota initialized.",
+            eventData.UserId, eventData.Email, eventData.FullName);
 
         return Task.CompletedTask;
     }

@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using SeoAuto.AuditService.Features.Audits.SubmitAudit;
+using SeoAuto.AuditService.Features.Audits.GetAuditById;
+using SeoAuto.AuditService.Features.Audits.GetMyAudits;
 using Scalar.AspNetCore;
 using SeoAuto.AuditService.Infrastructure.ExternalService;
 
@@ -75,5 +77,7 @@ app.UseAuthorization();
 // API Test thử nghiệm
 app.MapGet("/api/audits/ping", () => "AuditService is running with RabbitMQ!");
 app.MapSubmitAuditEndpoint(); // Đăng ký Endpoint Submit Audit
+app.MapGetAuditByIdEndpoint(); // Đăng ký Endpoint Get Audit By Id
+app.MapGetMyAuditsEndpoint();  // Đăng ký Endpoint Get My Audits
 
 app.Run();

@@ -8,6 +8,7 @@ using System.Security.Claims;
 using SeoAuto.AuditService.Infrastructure.Database;
 using SeoAuto.BuildingBlocks.Messaging;
 using SeoAuto.BuildingBlocks.Exceptions;
+using SeoAuto.BuildingBlocks.Extensions;
 using System;
 
 namespace SeoAuto.AuditService.Features.Audits.SubmitAudit;
@@ -35,19 +36,13 @@ public static class SubmitAuditEndpoint
                 : AuditStrategy.Desktop;
 
 
-            //Lấy UserId từ ClaimsPrincipal (nếu có)
-            var userIdString = user.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? user.FindFirst("sub")?.Value;
-            if (string.IsNullOrEmpty(userIdString) || !Guid.TryParse(userIdString, out var userId))
-            {
-                // Nếu không có UserId trong token, trả về lỗi 401 Unauthorized
-                throw new UnAuthorizedException("UserId không hợp lệ hoặc không tìm thấy trong token.");
-            }
+            // 3. Lấy UserId từ ClaimsPrincipal (dùng extension chuẩn)
+            var userId = user.GetUserId();
 
-            // 3. Tạo bản ghi AuditRequest mới với trạng thái Pending
+            // 4. Tạo bản ghi AuditRequest mới với trạng thái Pending
             var newRequest = new AuditRequest
             {
                 Id = Guid.NewGuid(),
-                // Tạm thời Fake UserId vì chúng ta chưa học phần Giải mã Token Đăng nhập
                 UserId = userId,
                 Url = request.Url,
                 Status = AuditStatus.Pending,

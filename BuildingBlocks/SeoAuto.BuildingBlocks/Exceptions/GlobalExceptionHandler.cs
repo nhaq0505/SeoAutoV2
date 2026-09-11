@@ -33,6 +33,11 @@ public class GlobalExceptionHandler : IExceptionHandler
         };
 
         // 3. Đóng gói lỗi thành chuẩn ProblemDetails (Tiêu chuẩn báo lỗi API toàn cầu RFC 7807)
+        // Với lỗi 500 không phải CustomException, ẩn chi tiết để bảo mật tránh rò rỉ cấu trúc DB/hệ thống
+        var detail = statusCode == StatusCodes.Status500InternalServerError && exception is not CustomException
+            ? "Đã xảy ra lỗi nội bộ hệ thống. Vui lòng liên hệ quản trị viên hoặc thử lại sau."
+            : exception.Message;
+
         var problemDetails = new ProblemDetails
         {
             Status = statusCode,
@@ -41,7 +46,7 @@ public class GlobalExceptionHandler : IExceptionHandler
                 CustomException => "Application Exception",
                 _ => "Internal Server Error"
             },
-            Detail = exception.Message,
+            Detail = detail,
             Instance = httpContext.Request.Path
         };
 

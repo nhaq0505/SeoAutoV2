@@ -1,5 +1,6 @@
 using System.Net;
 using System.Text.Json;
+using System.Text.RegularExpressions;
 using HtmlAgilityPack;
 using SeoAuto.AuditService.Domain.Entities;
 
@@ -47,33 +48,17 @@ namespace SeoAuto.AuditService.Infrastructure.ExternalService
             var imagesWithoutAltNodes = doc.DocumentNode.SelectNodes("//img[not(@alt) or normalize-space(@alt)='']");
             var imagesWithoutAlt = imagesWithoutAltNodes?.Count ?? 0;
 
-            // OpenGraph tags (og:*)
-            var ogNodes = doc.DocumentNode.SelectNodes("//meta[starts-with(translate(@property, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), 'og:')]");
-            string? openGraphData = null;
-            if (ogNodes != null && ogNodes.Count > 0)
-            {
-                var ogDict = new Dictionary<string, string>();
-                foreach (var node in ogNodes)
-                {
-                    var property = node.GetAttributeValue("property", string.Empty);
-                    var content = node.GetAttributeValue("content", string.Empty);
-                    if (!string.IsNullOrWhiteSpace(property) && !ogDict.ContainsKey(property))
-                    {
-                        ogDict[property] = WebUtility.HtmlDecode(content);
-                    }
-                }
-                openGraphData = JsonSerializer.Serialize(ogDict);
-            }
+            // OpenGraph (og:*) & Twitter Card (twitter:*) meta tags
+            var openGraphData = ExtractSocialMetaTags(doc);
 
             // Structured Data (JSON-LD)
             var jsonLdNode = doc.DocumentNode.SelectSingleNode("//script[@type='application/ld+json']");
             var structuredData = jsonLdNode != null ? jsonLdNode.InnerText.Trim() : null;
 
-            // Check robots.txt & sitemap.xml
+            // Kiểm tra robots.txt & Tìm Sitemap thông minh
             var uri = new Uri(url);
             var baseHost = $"{uri.Scheme}://{uri.Authority}";
-            var hasRobotsTxt = await CheckUrlExistsAsync($"{baseHost}/robots.txt", cancellationToken);
-            var hasSitemap = await CheckUrlExistsAsync($"{baseHost}/sitemap.xml", cancellationToken);
+            var (hasRobotsTxt, hasSitemap) = await CheckRobotsAndSitemapAsync(baseHost, cancellationToken);
 
             return new SeoAnalysis
             {
@@ -91,6 +76,72 @@ namespace SeoAuto.AuditService.Infrastructure.ExternalService
             };
         }
 
+        /// <summary>
+        /// Trích xuất tất cả thẻ Social Meta Tags (OpenGraph og:* và Twitter Card twitter:*).
+        /// Gộp vào chung 1 Dictionary và serialize thành chuỗi JSON.
+        /// </summary>
+        private static string? ExtractSocialMetaTags(HtmlDocument doc)
+        {
+            var socialDict = new Dictionary<string, string>();
+            var metaNodes = doc.DocumentNode.SelectNodes("//meta[@property or @name]");
+
+            if (metaNodes != null)
+            {
+                foreach (var node in metaNodes)
+                {
+                    var key = (node.GetAttributeValue("property", null) ?? node.GetAttributeValue("name", null))?.Trim().ToLowerInvariant();
+                    if (key != null && (key.StartsWith("og:") || key.StartsWith("twitter:")))
+                    {
+                        var content = node.GetAttributeValue("content", string.Empty);
+                        socialDict.TryAdd(key, WebUtility.HtmlDecode(content));
+                    }
+                }
+            }
+
+            return socialDict.Count > 0 ? JsonSerializer.Serialize(socialDict) : null;
+        }
+
+        /// <summary>
+        /// Kiểm tra sự tồn tại của robots.txt và tìm kiếm Sitemap thông minh:
+        /// 1. Tải robots.txt và quét tìm chỉ thị "Sitemap: <url>"
+        /// 2. Nếu tìm thấy, kiểm tra URL đó; nếu không, fallback về /sitemap.xml mặc định
+        /// </summary>
+        private async Task<(bool HasRobotsTxt, bool HasSitemap)> CheckRobotsAndSitemapAsync(string baseHost, CancellationToken cancellationToken)
+        {
+            var robotsUrl = $"{baseHost}/robots.txt";
+            var hasRobotsTxt = false;
+            string? sitemapUrl = null;
+
+            try
+            {
+                var robotsResponse = await _httpClient.GetAsync(robotsUrl, cancellationToken);
+                if (robotsResponse.IsSuccessStatusCode)
+                {
+                    hasRobotsTxt = true;
+                    var robotsContent = await robotsResponse.Content.ReadAsStringAsync(cancellationToken);
+                    var match = Regex.Match(robotsContent, @"^Sitemap:\s*(https?://\S+)", RegexOptions.IgnoreCase | RegexOptions.Multiline);
+                    if (match.Success)
+                    {
+                        sitemapUrl = match.Groups[1].Value.Trim();
+                        _logger.LogInformation("Found Sitemap directive in robots.txt: {SitemapUrl}", sitemapUrl);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogWarning(ex, "Failed to fetch or parse robots.txt for: {BaseHost}", baseHost);
+            }
+
+            // Kiểm tra sitemap tìm thấy trong robots.txt hoặc fallback đường dẫn mặc định
+            var targetSitemap = sitemapUrl ?? $"{baseHost}/sitemap.xml";
+            var hasSitemap = await CheckUrlExistsAsync(targetSitemap, cancellationToken);
+
+            return (hasRobotsTxt, hasSitemap);
+        }
+
+        /// <summary>
+        /// Kiểm tra một URL có tồn tại hay không (chỉ đọc Headers để tiết kiệm băng thông).
+        /// </summary>
         private async Task<bool> CheckUrlExistsAsync(string checkUrl, CancellationToken cancellationToken)
         {
             try
@@ -106,4 +157,3 @@ namespace SeoAuto.AuditService.Infrastructure.ExternalService
         }
     }
 }
-

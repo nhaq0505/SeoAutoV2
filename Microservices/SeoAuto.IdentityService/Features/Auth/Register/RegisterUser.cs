@@ -21,6 +21,11 @@ public static class RegisterUserEndpoint
                 return Results.BadRequest(new { Message = "Email và Mật khẩu không được để trống." });
             }
 
+            if (request.Password.Length < 6)
+            {
+                return Results.BadRequest(new { Message = "Mật khẩu phải có độ dài tối thiểu 6 ký tự." });
+            }
+
             // 2. Kiểm tra Email đã tồn tại chưa
             var existingUser = await dbContext.Users.FirstOrDefaultAsync(u => u.Email == request.Email);
             if (existingUser != null)
@@ -31,7 +36,7 @@ public static class RegisterUserEndpoint
             // 3. Mã hóa mật khẩu bằng BCrypt
             var passwordHash = BCrypt.Net.BCrypt.HashPassword(request.Password);
 
-            // 4. Tạo User mới
+            // 4. Tạo User mới và lưu vào CSDL trước
             var newUser = new User
             {
                 Id = Guid.NewGuid(),
@@ -43,14 +48,15 @@ public static class RegisterUserEndpoint
             };
 
             dbContext.Users.Add(newUser);
+            await dbContext.SaveChangesAsync();
+
+            // 5. Sau khi lưu CSDL thành công mới bắn Event lên RabbitMQ
             await publishEndpoint.Publish(new UserRegisteredEvent
             {
-                UserId = newUser.Id,         // Gán newUser.Id vào thuộc tính UserId
-                Email = newUser.Email,       // Gán newUser.Email vào thuộc tính Email
-                FullName = newUser.FullName  // Gán newUser.FullName vào thuộc tính FullName
+                UserId = newUser.Id,
+                Email = newUser.Email,
+                FullName = newUser.FullName
             });
-
-            await dbContext.SaveChangesAsync();
 
             return Results.Created($"/api/users/{newUser.Id}", new RegisterUserResponse(newUser.Id, "Đăng ký tài khoản thành công!"));
         })

@@ -1,6 +1,32 @@
-@SeoAuto.AuditService_HostAddress = http://localhost:5130
+@SeoAuto.AuditService_HostAddress = http://localhost:5002
+@ApiGateway_HostAddress = http://localhost:8000
+@token = YOUR_JWT_TOKEN_HERE
 
-GET {{SeoAuto.AuditService_HostAddress}}/weatherforecast/
+### 1. Ping Check
+GET {{SeoAuto.AuditService_HostAddress}}/api/audits/ping
+Accept: text/plain
+
+### 2. Ping via Gateway
+GET {{ApiGateway_HostAddress}}/api/audits/ping
+Accept: text/plain
+
+### 3. Submit Audit Request (via Gateway)
+POST {{ApiGateway_HostAddress}}/api/audits/submit
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "url": "https://google.com",
+  "strategy": "Desktop"
+}
+
+### 4. Get Audit Detail By Id (via Gateway)
+GET {{ApiGateway_HostAddress}}/api/audits/YOUR_AUDIT_ID_HERE
+Authorization: Bearer {{token}}
 Accept: application/json
 
-###
+### 5. Get My Audits History (via Gateway)
+GET {{ApiGateway_HostAddress}}/api/audits/my?page=1&pageSize=10
+Authorization: Bearer {{token}}
+Accept: application/json
+
