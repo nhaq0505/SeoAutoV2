@@ -1,0 +1,29 @@
+@SeoAuto.AiService_HostAddress = http://localhost:5004
+@ApiGateway_HostAddress = http://localhost:8000
+@token = YOUR_JWT_TOKEN_HERE
+
+### 1. Ping Check (Direct)
+GET {{SeoAuto.AiService_HostAddress}}/api/ai/ping
+Accept: text/plain
+
+### 2. Ping via Gateway
+GET {{ApiGateway_HostAddress}}/api/ai/ping
+Accept: text/plain
+
+### 3. Analyze Preview (Test Prompt & Fallback / Gemini API)
+POST {{ApiGateway_HostAddress}}/api/ai/analyze-preview
+Content-Type: application/json
+
+{
+  "auditId": "11111111-2222-3333-4444-555555555555",
+  "userId": "00000000-0000-0000-0000-000000000000",
+  "url": "https://example.com",
+  "strategy": "Desktop",
+  "overallScore": 68,
+  "performanceScore": 55,
+  "seoScore": 72,
+  "accessibilityScore": 80,
+  "bestPracticesScore": 65,
+  "performanceDataJson": "{\"LCP_ms\":3800,\"CLS\":0.15,\"INP_ms\":250,\"TTFB_ms\":800}",
+  "seoDataJson": "{\"title\":\"Example Store\",\"h1Count\":0,\"imagesWithoutAlt\":4,\"hasSitemap\":false}"
+}

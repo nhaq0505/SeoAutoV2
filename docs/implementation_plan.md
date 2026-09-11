@@ -33,7 +33,7 @@ Chúng ta vẫn sẽ áp dụng chiến lược **Chia để trị (Phased Appro
 - [x] Ghép nối Frontend: Tạo Dashboard cơ bản, form nhập URL Audit, polling trạng thái và hiển thị Core Web Vitals & On-page SEO checklist.
 
 ### Tháng 3: Trí tuệ Nhân tạo & Trải nghiệm Real-time
-- [ ] Xây dựng **AI Service** (Tích hợp Gemini API để đọc raw data và trả về giải pháp tối ưu mã nguồn).
+- [x] Xây dựng **AI Service** (Tích hợp Gemini API để đọc raw data và trả về giải pháp tối ưu mã nguồn, Polly Retry & Smart Fallback).
 - [ ] Xây dựng **Notification Service** (Dùng SignalR để push thông báo real-time xuống trình duyệt khi AI phân tích xong).
 - [ ] Hoàn thiện luồng hiển thị kết quả chi tiết trên UI.
 
