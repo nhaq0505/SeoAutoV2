@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 18
-VisualStudioVersion = 18.6.11822.322 stable
+VisualStudioVersion = 18.6.11822.322
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ApiGateways", "ApiGateways", "{8450CF56-5DC7-366A-AE0A-4A8614F474CF}"
 EndProject
@@ -16,6 +16,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SeoAuto.BuildingBlocks", "BuildingBlocks\SeoAuto.BuildingBlocks\SeoAuto.BuildingBlocks.csproj", "{3C1533C8-4CB0-48FE-813B-E452EF8C2986}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SeoAuto.AuditService", "Microservices\SeoAuto.AuditService\SeoAuto.AuditService.csproj", "{FDADFC12-6F0D-4921-8D22-8ED2F426AFE9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SeoAuto.ReportService", "Microservices\SeoAuto.ReportService\SeoAuto.ReportService.csproj", "{70EC8ADB-610D-4EA5-9A52-376FD3F54AF0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -75,6 +77,18 @@ Global
 		{FDADFC12-6F0D-4921-8D22-8ED2F426AFE9}.Release|x64.Build.0 = Release|Any CPU
 		{FDADFC12-6F0D-4921-8D22-8ED2F426AFE9}.Release|x86.ActiveCfg = Release|Any CPU
 		{FDADFC12-6F0D-4921-8D22-8ED2F426AFE9}.Release|x86.Build.0 = Release|Any CPU
+		{70EC8ADB-610D-4EA5-9A52-376FD3F54AF0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{70EC8ADB-610D-4EA5-9A52-376FD3F54AF0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{70EC8ADB-610D-4EA5-9A52-376FD3F54AF0}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{70EC8ADB-610D-4EA5-9A52-376FD3F54AF0}.Debug|x64.Build.0 = Debug|Any CPU
+		{70EC8ADB-610D-4EA5-9A52-376FD3F54AF0}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{70EC8ADB-610D-4EA5-9A52-376FD3F54AF0}.Debug|x86.Build.0 = Debug|Any CPU
+		{70EC8ADB-610D-4EA5-9A52-376FD3F54AF0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{70EC8ADB-610D-4EA5-9A52-376FD3F54AF0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{70EC8ADB-610D-4EA5-9A52-376FD3F54AF0}.Release|x64.ActiveCfg = Release|Any CPU
+		{70EC8ADB-610D-4EA5-9A52-376FD3F54AF0}.Release|x64.Build.0 = Release|Any CPU
+		{70EC8ADB-610D-4EA5-9A52-376FD3F54AF0}.Release|x86.ActiveCfg = Release|Any CPU
+		{70EC8ADB-610D-4EA5-9A52-376FD3F54AF0}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -84,6 +98,7 @@ Global
 		{DAA8F101-6C0A-4138-A0B1-E7E9C04265EE} = {8A367DDA-5161-A942-4F09-60E4726C9306}
 		{3C1533C8-4CB0-48FE-813B-E452EF8C2986} = {7266C4A9-E384-DC00-0EB6-47F6002CFBA7}
 		{FDADFC12-6F0D-4921-8D22-8ED2F426AFE9} = {8A367DDA-5161-A942-4F09-60E4726C9306}
+		{70EC8ADB-610D-4EA5-9A52-376FD3F54AF0} = {8A367DDA-5161-A942-4F09-60E4726C9306}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {64E93026-91F2-4E15-9238-F48A59DBB858}

@@ -1,0 +1,68 @@
+@SeoAuto.ReportService_HostAddress = http://localhost:5003
+@ApiGateway_HostAddress = http://localhost:8000
+@token = YOUR_JWT_TOKEN_HERE
+
+### 1. Ping Check (Direct)
+GET {{SeoAuto.ReportService_HostAddress}}/api/reports/ping
+Accept: text/plain
+
+### 2. Ping via Gateway
+GET {{ApiGateway_HostAddress}}/api/reports/ping
+Accept: text/plain
+
+### 3. Create Project (via Gateway)
+POST {{ApiGateway_HostAddress}}/api/projects
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "name": "E-commerce Platform",
+  "description": "Hệ thống website thương mại điện tử chính"
+}
+
+### 4. Get My Projects (via Gateway)
+GET {{ApiGateway_HostAddress}}/api/projects
+Authorization: Bearer {{token}}
+Accept: application/json
+
+### 5. Get Project Detail (via Gateway)
+GET {{ApiGateway_HostAddress}}/api/projects/YOUR_PROJECT_ID_HERE
+Authorization: Bearer {{token}}
+Accept: application/json
+
+### 6. Create Website in Project (via Gateway)
+POST {{ApiGateway_HostAddress}}/api/websites
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "projectId": "YOUR_PROJECT_ID_HERE",
+  "url": "https://example.com",
+  "name": "Example Storefront",
+  "faviconUrl": "https://example.com/favicon.ico"
+}
+
+### 7. Get My Websites (via Gateway)
+GET {{ApiGateway_HostAddress}}/api/websites
+Authorization: Bearer {{token}}
+Accept: application/json
+
+### 8. Get Websites by Project (via Gateway)
+GET {{ApiGateway_HostAddress}}/api/websites?projectId=YOUR_PROJECT_ID_HERE
+Authorization: Bearer {{token}}
+Accept: application/json
+
+### 9. Get Website Detail with Recent Audits (via Gateway)
+GET {{ApiGateway_HostAddress}}/api/websites/YOUR_WEBSITE_ID_HERE
+Authorization: Bearer {{token}}
+Accept: application/json
+
+### 10. Get Report Detail By Id or AuditRequestId (via Gateway)
+GET {{ApiGateway_HostAddress}}/api/reports/YOUR_REPORT_OR_AUDIT_ID_HERE
+Authorization: Bearer {{token}}
+Accept: application/json
+
+### 11. Get Score History for Charts (via Gateway)
+GET {{ApiGateway_HostAddress}}/api/reports/history?websiteId=YOUR_WEBSITE_ID_HERE
+Authorization: Bearer {{token}}
+Accept: application/json

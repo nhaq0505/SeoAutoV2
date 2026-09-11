@@ -59,6 +59,24 @@ namespace SeoAuto.AuditService.Features.Audits.ProcessAudit
                 auditRequest.CompletedAt = DateTime.UtcNow;
                 await _dbContext.SaveChangesAsync();
                 _logger.LogInformation("Updated AuditRequest status to Completed for Id {AuditId}.", message.AuditId);
+
+                // Bắn event AuditCompletedEvent để ReportService và các service khác tiêu thụ
+                var overallScore = (rawMetrics.PerformanceScore + rawMetrics.SeoScore + rawMetrics.AccessibilityScore + rawMetrics.BestPracticesScore) / 4;
+                await context.Publish(new AuditCompletedEvent
+                {
+                    AuditId = auditRequest.Id,
+                    UserId = auditRequest.UserId,
+                    Url = auditRequest.Url,
+                    Strategy = auditRequest.Strategy.ToString(),
+                    CompletedAt = auditRequest.CompletedAt.Value,
+                    OverallScore = overallScore,
+                    PerformanceScore = rawMetrics.PerformanceScore,
+                    SeoScore = rawMetrics.SeoScore,
+                    AccessibilityScore = rawMetrics.AccessibilityScore,
+                    BestPracticesScore = rawMetrics.BestPracticesScore,
+                    PerformanceDataJson = System.Text.Json.JsonSerializer.Serialize(rawMetrics),
+                    SeoDataJson = System.Text.Json.JsonSerializer.Serialize(seoAnalysis)
+                }, context.CancellationToken);
             }
             catch (Exception ex)
             {

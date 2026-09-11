@@ -29,7 +29,7 @@ Chúng ta vẫn sẽ áp dụng chiến lược **Chia để trị (Phased Appro
 ### Tháng 2: Core Audit Flow
 - [x] Xây dựng **Audit Service** (Tích hợp Google PageSpeed Insights API, HTML & On-page SEO, CQRS/Vertical Slice, Query APIs).
 - [x] Thiết lập Message Bus (RabbitMQ) để giao tiếp bất đồng bộ giữa các services (AuditRequestedEvent).
-- [ ] Xây dựng **Report Service** (Lưu kết quả, sinh mã ID chia sẻ).
+- [x] Xây dựng **Report Service** (Lưu kết quả, quản lý Projects/Websites, lưu trữ JSONB, sinh mã chia sẻ & lịch sử điểm số).
 - [x] Ghép nối Frontend: Tạo Dashboard cơ bản, form nhập URL Audit, polling trạng thái và hiển thị Core Web Vitals & On-page SEO checklist.
 
 ### Tháng 3: Trí tuệ Nhân tạo & Trải nghiệm Real-time
