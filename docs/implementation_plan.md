@@ -27,10 +27,10 @@ Chúng ta vẫn sẽ áp dụng chiến lược **Chia để trị (Phased Appro
 - [x] Khởi tạo bộ khung Frontend Dashboard (**Next.js 15 + TypeScript + TailwindCSS**) tại `Frontend/seo-auto-web`.
 
 ### Tháng 2: Core Audit Flow
-- [ ] Xây dựng **Audit Service** (Tích hợp Google PageSpeed Insights API, CQRS Pattern).
-- [ ] Thiết lập Message Bus (RabbitMQ) để giao tiếp giữa các services.
+- [x] Xây dựng **Audit Service** (Tích hợp Google PageSpeed Insights API, HTML & On-page SEO, CQRS/Vertical Slice, Query APIs).
+- [x] Thiết lập Message Bus (RabbitMQ) để giao tiếp bất đồng bộ giữa các services (AuditRequestedEvent).
 - [ ] Xây dựng **Report Service** (Lưu kết quả, sinh mã ID chia sẻ).
-- [ ] Ghép nối Frontend: Tạo Dashboard cơ bản và form nhập URL Audit.
+- [x] Ghép nối Frontend: Tạo Dashboard cơ bản, form nhập URL Audit, polling trạng thái và hiển thị Core Web Vitals & On-page SEO checklist.
 
 ### Tháng 3: Trí tuệ Nhân tạo & Trải nghiệm Real-time
 - [ ] Xây dựng **AI Service** (Tích hợp Gemini API để đọc raw data và trả về giải pháp tối ưu mã nguồn).

@@ -3,6 +3,7 @@
 
 import { useState, useEffect } from 'react';
 import { api, getAccessToken, clearTokens, UserProfile, getRefreshToken } from '@/lib/api';
+import AuditWorkspace from '@/components/AuditWorkspace';
 import { 
   ShieldCheck, 
   User, 
@@ -55,10 +56,6 @@ export default function Home() {
 
   const [oldPassword, setOldPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
-
-  // SEO Audit Demo Search State
-  const [auditUrl, setAuditUrl] = useState('');
-  const [isAuditing, setIsAuditing] = useState(false);
 
   // Status & Notification Messages
   const [actionMessage, setActionMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
@@ -186,18 +183,8 @@ export default function Home() {
   };
 
   const fillDemoLogin = () => {
-    setLoginEmail('quan@example.com');
+    setLoginEmail('nhaq@example.com');
     setLoginPassword('Password123!');
-  };
-
-  const handleStartAudit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!auditUrl) return;
-    setIsAuditing(true);
-    setTimeout(() => {
-      setIsAuditing(false);
-      showAlert('success', `Đã nhận yêu cầu phân tích URL: ${auditUrl}. Module Audit Service (Tháng 2) sẽ xử lý dữ liệu này!`);
-    }, 1500);
   };
 
   if (loading) {
@@ -519,72 +506,7 @@ export default function Home() {
 
             {/* TAB 1: SEO AUDIT SEARCH WORKSPACE (CUSTOMER VIEW) */}
             {activeTab === 'audit' && (
-              <div className="space-y-6">
-                {/* Search / Audit URL Bar */}
-                <div className="hallmark-card p-6 rounded-2xl">
-                  <h3 className="text-sm font-bold text-white mb-1">Kiểm tra & Tối ưu SEO Website ngay tức thì</h3>
-                  <p className="text-xs text-slate-400 mb-4">
-                    Nhập đường dẫn trang web của bạn để Google PageSpeed API & Gemini AI phân tích điểm số
-                  </p>
-
-                  <form onSubmit={handleStartAudit} className="flex flex-col sm:flex-row gap-3">
-                    <div className="relative flex-1">
-                      <Globe className="w-4 h-4 absolute left-3.5 top-3.5 text-slate-500" />
-                      <input
-                        type="url"
-                        required
-                        value={auditUrl}
-                        onChange={(e) => setAuditUrl(e.target.value)}
-                        placeholder="https://mywebsite.com"
-                        className="w-full hallmark-input rounded-xl pl-10 pr-4 py-2.5 text-xs font-mono"
-                      />
-                    </div>
-                    <button
-                      type="submit"
-                      disabled={isAuditing}
-                      className="px-6 py-2.5 rounded-xl bg-gradient-to-r from-indigo-600 to-violet-600 text-white font-semibold text-xs transition shadow-lg shadow-indigo-600/30 flex items-center justify-center gap-2 disabled:opacity-50"
-                    >
-                      {isAuditing ? (
-                        <RefreshCw className="w-4 h-4 animate-spin" />
-                      ) : (
-                        <>
-                          <Search className="w-4 h-4" /> Phân tích SEO bằng AI
-                        </>
-                      )}
-                    </button>
-                  </form>
-                </div>
-
-                {/* Dashboard Stats for User */}
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                  <div className="hallmark-card p-5 rounded-2xl">
-                    <div className="flex items-center justify-between mb-2">
-                      <BarChart3 className="w-5 h-5 text-indigo-400" />
-                      <span className="text-[10px] font-mono text-slate-400">Tháng 1/Tháng 2</span>
-                    </div>
-                    <h4 className="text-xs font-mono text-slate-400">Tổng số Website đã Audit</h4>
-                    <p className="text-2xl font-bold text-white mt-1">0 Trang</p>
-                  </div>
-
-                  <div className="hallmark-card p-5 rounded-2xl">
-                    <div className="flex items-center justify-between mb-2">
-                      <Sparkles className="w-5 h-5 text-purple-400" />
-                      <span className="text-[10px] font-mono text-slate-400">Gemini 1.5</span>
-                    </div>
-                    <h4 className="text-xs font-mono text-slate-400">Đoạn Code đã được AI tối ưu</h4>
-                    <p className="text-2xl font-bold text-white mt-1">0 Đoạn Code</p>
-                  </div>
-
-                  <div className="hallmark-card p-5 rounded-2xl">
-                    <div className="flex items-center justify-between mb-2">
-                      <ShieldCheck className="w-5 h-5 text-emerald-400" />
-                      <span className="text-[10px] font-mono text-slate-400">Realtime</span>
-                    </div>
-                    <h4 className="text-xs font-mono text-slate-400">Điểm SEO Trung bình</h4>
-                    <p className="text-2xl font-bold text-white mt-1">— / 100</p>
-                  </div>
-                </div>
-              </div>
+              <AuditWorkspace showAlert={showAlert} />
             )}
 
             {/* TAB 2: UPDATE PROFILE */}

@@ -36,6 +36,74 @@ export interface ChangePasswordPayload {
   newPassword: string;
 }
 
+export interface SubmitAuditPayload {
+  url: string;
+  strategy?: 'Desktop' | 'Mobile';
+}
+
+export interface SubmitAuditResponse {
+  auditId: string;
+  message: string;
+}
+
+export interface RawMetrics {
+  performanceScore: number;
+  accessibilityScore: number;
+  bestPracticesScore: number;
+  seoScore: number;
+  lcpMs: number;
+  inpMs: number;
+  cls: number;
+  ttfbMs: number;
+  fcpMs: number;
+  speedIndexMs: number;
+}
+
+export interface SeoAnalysis {
+  title: string;
+  metaDescription: string;
+  canonicalUrl: string;
+  hasRobotsTxt: boolean;
+  hasSitemap: boolean;
+  h1Count: number;
+  imagesWithoutAlt: number;
+  openGraphData?: Record<string, string> | null;
+  structuredData?: any;
+}
+
+export interface AuditDetail {
+  id: string;
+  userId: string;
+  url: string;
+  status: 'Pending' | 'Processing' | 'Completed' | 'Failed';
+  strategy: 'Desktop' | 'Mobile';
+  createdAt: string;
+  completedAt?: string;
+  errorMessage?: string;
+  rawMetrics?: RawMetrics | null;
+  seoAnalysis?: SeoAnalysis | null;
+}
+
+export interface AuditSummary {
+  id: string;
+  url: string;
+  status: 'Pending' | 'Processing' | 'Completed' | 'Failed';
+  strategy: 'Desktop' | 'Mobile';
+  createdAt: string;
+  completedAt?: string;
+  errorMessage?: string;
+  performanceScore?: number | null;
+  seoScore?: number | null;
+}
+
+export interface PagedResult<T> {
+  items: T[];
+  totalCount: number;
+  page: number;
+  pageSize: number;
+  totalPages: number;
+}
+
 // Token Storage Helpers
 export const getAccessToken = () => typeof window !== 'undefined' ? localStorage.getItem('access_token') : null;
 export const getRefreshToken = () => typeof window !== 'undefined' ? localStorage.getItem('refresh_token') : null;
@@ -165,6 +233,30 @@ export const api = {
     const json = await res.json();
     if (!res.ok) throw new Error(json.message || json.detail || 'Refresh Token không hợp lệ');
     setTokens(json.accessToken, json.refreshToken);
+    return json;
+  },
+
+  submitAudit: async (data: SubmitAuditPayload): Promise<SubmitAuditResponse> => {
+    const res = await fetchWithAuth('/api/audits/submit', {
+      method: 'POST',
+      body: JSON.stringify(data),
+    });
+    const json = await res.json();
+    if (!res.ok) throw new Error(json.message || json.detail || 'Không thể gửi yêu cầu Audit');
+    return json;
+  },
+
+  getAuditById: async (id: string): Promise<AuditDetail> => {
+    const res = await fetchWithAuth(`/api/audits/${id}`);
+    const json = await res.json();
+    if (!res.ok) throw new Error(json.message || json.detail || 'Không tìm thấy kết quả Audit');
+    return json;
+  },
+
+  getMyAudits: async (page = 1, pageSize = 10): Promise<PagedResult<AuditSummary>> => {
+    const res = await fetchWithAuth(`/api/audits/my?page=${page}&pageSize=${pageSize}`);
+    const json = await res.json();
+    if (!res.ok) throw new Error(json.message || json.detail || 'Không thể tải lịch sử Audit');
     return json;
   },
 };
